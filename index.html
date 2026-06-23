@@ -173,6 +173,7 @@
       margin: 0 auto;
       padding: 28px 0 60px;
       animation: pageIn 0.7s ease both;
+      display: none;
     }
 
     @keyframes pageIn {
@@ -363,6 +364,30 @@
       box-shadow: 0 0 24px rgba(0, 180, 255, 0.20);
     }
 
+    .btn-danger {
+      color: white;
+      background: linear-gradient(135deg, #ef4444, #b91c1c);
+      box-shadow: 0 12px 28px rgba(239, 68, 68, 0.22);
+    }
+
+    .user-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 15px;
+      min-height: 48px;
+      border-radius: 15px;
+      background: rgba(255,255,255,0.74);
+      border: 1px solid rgba(0, 180, 255, 0.32);
+      color: #082033;
+      font-size: 13px;
+      font-weight: 850;
+      max-width: 260px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
@@ -387,22 +412,6 @@
       backdrop-filter: blur(18px);
       animation: cardUp 0.55s ease both;
       transition: 0.25s ease;
-    }
-
-    .stat-card:nth-child(2) {
-      animation-delay: 0.06s;
-    }
-
-    .stat-card:nth-child(3) {
-      animation-delay: 0.12s;
-    }
-
-    .stat-card:nth-child(4) {
-      animation-delay: 0.18s;
-    }
-
-    .stat-card:nth-child(5) {
-      animation-delay: 0.24s;
     }
 
     @keyframes cardUp {
@@ -965,8 +974,10 @@
       }
 
       .hero-actions .btn,
-      .actions-menu {
+      .actions-menu,
+      .user-pill {
         width: 100%;
+        max-width: none;
       }
 
       .actions-menu .btn {
@@ -1138,63 +1149,77 @@
       <h2>Dashboard Commesse</h2>
 
       <p>
-        Inserisci la password per accedere alla banca dati delle commesse.
+        Inserisci email e password autorizzate per accedere alla banca dati.
       </p>
 
       <div class="login-field">
         <input
-          type="password"
-          id="passwordInput"
-          placeholder="Password"
-          autocomplete="off"
-          onkeydown="handlePasswordEnter(event)"
+          type="email"
+          id="loginEmail"
+          placeholder="Email"
+          autocomplete="email"
         />
       </div>
 
-      <button class="btn btn-primary login-button" onclick="checkPassword()">
-        Entra
+      <div class="login-field">
+        <input
+          type="password"
+          id="loginPassword"
+          placeholder="Password"
+          autocomplete="current-password"
+        />
+      </div>
+
+      <button class="btn btn-primary login-button" id="loginBtn">
+        Accedi
       </button>
 
       <div class="login-error" id="loginError">
-        Password errata. Riprova.
+        Email o password non corrette.
       </div>
     </div>
   </div>
 
-  <div class="app" id="appContent" style="display: none;">
+  <div class="app" id="appContent">
 
     <section class="hero">
       <div class="hero-content">
         <div>
           <div class="eyebrow">
             <span class="pulse-dot"></span>
-            Gestionale preventivi
+            Gestionale preventivi online
           </div>
 
           <h1>Dashboard<br>Commesse</h1>
 
           <p>
-            Banca dati dinamica per monitorare preventivi, importi, scadenze,
-            KAM, stati di avanzamento e risultati commerciali.
+            Banca dati dinamica collegata a Firestore per monitorare preventivi,
+            importi, scadenze, KAM, stati di avanzamento e risultati commerciali.
           </p>
         </div>
 
         <div class="hero-actions">
-          <button class="btn btn-primary" onclick="openNewCommessa()">
+          <span class="user-pill" id="userEmail">Utente collegato</span>
+
+          <button class="btn btn-primary" id="newCommessaBtn">
             + Nuova commessa
           </button>
 
           <div class="actions-menu">
-            <button class="btn btn-glass" onclick="toggleActions()">
+            <button class="btn btn-glass" id="actionsBtn">
               Azioni ▾
             </button>
 
             <div class="dropdown" id="actionsDropdown">
-              <button onclick="duplicateSelected()">Duplica commessa</button>
-              <button onclick="editSelected()">Modifica commessa</button>
-              <button onclick="deleteSelected()">Elimina commessa</button>
+              <button id="duplicateBtn">Duplica commessa</button>
+              <button id="editBtn">Modifica commessa</button>
+              <button id="deleteBtn">Elimina commessa</button>
             </div>
           </div>
+
+          <button class="btn btn-danger" id="logoutBtn">
+            Esci
+          </button>
         </div>
       </div>
     </section>
@@ -1236,8 +1261,8 @@
         <div class="panel-title">
           <h2>Elenco commesse</h2>
           <p>
-            Seleziona una riga per modificarla, duplicarla o eliminarla dal menu azioni.
-            Le scadenze vengono evidenziate automaticamente.
+            Seleziona una riga per modificarla, duplicarla o eliminarla.
+            Ogni modifica viene salvata online nel database.
           </p>
         </div>
       </div>
@@ -1248,12 +1273,11 @@
             type="text"
             id="searchInput"
             placeholder="Cerca per committente, città, KAM, note..."
-            oninput="renderTable()"
           />
         </div>
 
         <div class="field">
-          <select id="statusFilter" onchange="renderTable()">
+          <select id="statusFilter">
             <option value="">Tutti gli stati</option>
             <option value="da-lavorare">Da lavorare / in lavorazione</option>
             <option value="attesa">Consegnata / in attesa</option>
@@ -1325,7 +1349,7 @@
     <div class="modal">
       <h2 id="modalTitle">Nuova commessa</h2>
       <p class="modal-subtitle">
-        Inserisci i dati della commessa. Potrai modificarli in qualsiasi momento.
+        Inserisci i dati della commessa. Il salvataggio avverrà direttamente online.
       </p>
 
       <form id="commessaForm">
@@ -1405,11 +1429,11 @@
         </div>
 
         <div class="modal-actions">
-          <button type="button" class="btn btn-glass" onclick="closeModal()">
+          <button type="button" class="btn btn-glass" id="cancelBtn">
             Annulla
           </button>
 
-          <button type="submit" class="btn btn-primary">
+          <button type="submit" class="btn btn-primary" id="saveBtn">
             Salva commessa
           </button>
         </div>
@@ -1419,59 +1443,62 @@
 
   <div class="toast" id="toast"></div>
 
-  <script>
-    const ACCESS_PASSWORD = "Edilizia";
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 
-    let commesse = JSON.parse(localStorage.getItem("commesseDashboard")) || [];
-    let selectedId = null;
-    let editingId = null;
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      signOut,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      updateDoc,
+      deleteDoc,
+      doc,
+      onSnapshot,
+      query,
+      orderBy,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBXcvjzPv_7cmcjc4O2xpFsrGG1ydcR4js",
+      authDomain: "banca-dati-2bd62.firebaseapp.com",
+      projectId: "banca-dati-2bd62",
+      storageBucket: "banca-dati-2bd62.firebasestorage.app",
+      messagingSenderId: "898295257324",
+      appId: "1:898295257324:web:8b7f3678bf3c4f83d72dc9"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const loginScreen = document.getElementById("loginScreen");
+    const appContent = document.getElementById("appContent");
+    const loginEmail = document.getElementById("loginEmail");
+    const loginPassword = document.getElementById("loginPassword");
+    const loginError = document.getElementById("loginError");
+    const loginBtn = document.getElementById("loginBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const userEmail = document.getElementById("userEmail");
 
     const form = document.getElementById("commessaForm");
+    const modalBg = document.getElementById("modalBg");
+    const actionsDropdown = document.getElementById("actionsDropdown");
 
-    function checkSavedAccess() {
-      const accessGranted = sessionStorage.getItem("dashboardAccessGranted");
+    const searchInput = document.getElementById("searchInput");
+    const statusFilter = document.getElementById("statusFilter");
 
-      if (accessGranted === "true") {
-        document.getElementById("loginScreen").style.display = "none";
-        document.getElementById("appContent").style.display = "block";
-      } else {
-        document.getElementById("loginScreen").style.display = "flex";
-        document.getElementById("appContent").style.display = "none";
-      }
-    }
-
-    function checkPassword() {
-      const input = document.getElementById("passwordInput");
-      const error = document.getElementById("loginError");
-      const password = input.value.trim();
-
-      if (password === ACCESS_PASSWORD) {
-        sessionStorage.setItem("dashboardAccessGranted", "true");
-
-        document.getElementById("loginScreen").style.display = "none";
-        document.getElementById("appContent").style.display = "block";
-
-        error.style.display = "none";
-        input.value = "";
-
-        renderTable();
-        renderStats();
-      } else {
-        error.style.display = "block";
-        input.value = "";
-        input.focus();
-      }
-    }
-
-    function handlePasswordEnter(event) {
-      if (event.key === "Enter") {
-        checkPassword();
-      }
-    }
-
-    function saveToStorage() {
-      localStorage.setItem("commesseDashboard", JSON.stringify(commesse));
-    }
+    let commesse = [];
+    let selectedId = null;
+    let editingId = null;
+    let unsubscribeCommesse = null;
 
     function showToast(message) {
       const toast = document.getElementById("toast");
@@ -1496,6 +1523,8 @@
       if (!date) return "-";
 
       const parts = date.split("-");
+      if (parts.length !== 3) return "-";
+
       return `${parts[2]}/${parts[1]}/${parts[0]}`;
     }
 
@@ -1609,20 +1638,41 @@
     }
 
     function openModal() {
-      document.getElementById("modalBg").style.display = "flex";
+      modalBg.style.display = "flex";
     }
 
     function closeModal() {
-      document.getElementById("modalBg").style.display = "none";
+      modalBg.style.display = "none";
       editingId = null;
     }
 
-    form.addEventListener("submit", function(event) {
-      event.preventDefault();
+    function closeActions() {
+      actionsDropdown.classList.remove("show");
+    }
 
-      const commessa = {
-        id: editingId || Date.now(),
-        numero: document.getElementById("numero").value,
+    function toggleActions() {
+      actionsDropdown.classList.toggle("show");
+    }
+
+    function getSelectedCommessa() {
+      if (!selectedId) {
+        showToast("Seleziona prima una commessa dalla tabella");
+        return null;
+      }
+
+      const commessa = commesse.find(c => c.id === selectedId);
+
+      if (!commessa) {
+        showToast("Commessa non trovata");
+        return null;
+      }
+
+      return commessa;
+    }
+
+    function getFormData() {
+      return {
+        numero: Number(document.getElementById("numero").value) || getNextNumero(),
         nome: document.getElementById("nome").value.trim(),
         cognome: document.getElementById("cognome").value.trim(),
         kam: document.getElementById("kam").value.trim(),
@@ -1636,26 +1686,55 @@
         info: document.getElementById("info").value.trim(),
         annotazioni: document.getElementById("annotazioni").value.trim()
       };
+    }
 
-      if (editingId) {
-        commesse = commesse.map(c => c.id === editingId ? commessa : c);
-        showToast("Commessa modificata correttamente");
-      } else {
-        commesse.push(commessa);
-        showToast("Nuova commessa aggiunta");
+    async function saveCommessa(event) {
+      event.preventDefault();
+
+      const saveBtn = document.getElementById("saveBtn");
+      saveBtn.disabled = true;
+      saveBtn.innerText = "Salvataggio...";
+
+      try {
+        const data = getFormData();
+
+        if (editingId) {
+          const ref = doc(db, "commesse", editingId);
+
+          await updateDoc(ref, {
+            ...data,
+            updatedAt: serverTimestamp(),
+            updatedBy: auth.currentUser ? auth.currentUser.email : ""
+          });
+
+          showToast("Commessa modificata online");
+        } else {
+          await addDoc(collection(db, "commesse"), {
+            ...data,
+            createdAt: serverTimestamp(),
+            updatedAt: serverTimestamp(),
+            createdBy: auth.currentUser ? auth.currentUser.email : "",
+            updatedBy: auth.currentUser ? auth.currentUser.email : ""
+          });
+
+          showToast("Nuova commessa salvata online");
+        }
+
+        closeModal();
+      } catch (error) {
+        console.error(error);
+        showToast("Errore durante il salvataggio");
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.innerText = "Salva commessa";
       }
-
-      saveToStorage();
-      closeModal();
-      renderTable();
-      renderStats();
-    });
+    }
 
     function renderTable() {
       const tbody = document.getElementById("commesseTable");
       const emptyState = document.getElementById("emptyState");
-      const search = document.getElementById("searchInput").value.toLowerCase();
-      const status = document.getElementById("statusFilter").value;
+      const search = searchInput.value.toLowerCase();
+      const status = statusFilter.value;
 
       tbody.innerHTML = "";
 
@@ -1699,7 +1778,7 @@
           };
 
           tr.innerHTML = `
-            <td data-label="N."><span class="numero">${c.numero}</span></td>
+            <td data-label="N."><span class="numero">${c.numero || "-"}</span></td>
             <td data-label="Nome">${c.nome || "-"}</td>
             <td data-label="Cognome">${c.cognome || "-"}</td>
             <td data-label="KAM"><strong>${c.kam || "-"}</strong></td>
@@ -1730,6 +1809,7 @@
 
       const urgentDeadlines = commesse.filter(c => {
         const deadline = getDeadlineInfo(c.dataScadenza);
+
         return deadline.urgent === true &&
           c.stato !== "aggiudicata" &&
           c.stato !== "persa" &&
@@ -1785,30 +1865,6 @@
         });
     }
 
-    function toggleActions() {
-      document.getElementById("actionsDropdown").classList.toggle("show");
-    }
-
-    function closeActions() {
-      document.getElementById("actionsDropdown").classList.remove("show");
-    }
-
-    function getSelectedCommessa() {
-      if (!selectedId) {
-        showToast("Seleziona prima una commessa dalla tabella");
-        return null;
-      }
-
-      const commessa = commesse.find(c => c.id === selectedId);
-
-      if (!commessa) {
-        showToast("Commessa non trovata");
-        return null;
-      }
-
-      return commessa;
-    }
-
     function editSelected() {
       const c = getSelectedCommessa();
       if (!c) return;
@@ -1817,48 +1873,58 @@
 
       document.getElementById("modalTitle").innerText = `Modifica commessa n. ${c.numero}`;
 
-      document.getElementById("numero").value = c.numero;
-      document.getElementById("nome").value = c.nome;
-      document.getElementById("cognome").value = c.cognome;
-      document.getElementById("kam").value = c.kam;
-      document.getElementById("indirizzo").value = c.indirizzo;
-      document.getElementById("citta").value = c.citta;
-      document.getElementById("oe").value = c.oe;
-      document.getElementById("dataInvio").value = c.dataInvio;
-      document.getElementById("dataScadenza").value = c.dataScadenza;
-      document.getElementById("dataAssemblea").value = c.dataAssemblea;
-      document.getElementById("stato").value = c.stato;
-      document.getElementById("info").value = c.info;
-      document.getElementById("annotazioni").value = c.annotazioni;
+      document.getElementById("numero").value = c.numero || "";
+      document.getElementById("nome").value = c.nome || "";
+      document.getElementById("cognome").value = c.cognome || "";
+      document.getElementById("kam").value = c.kam || "";
+      document.getElementById("indirizzo").value = c.indirizzo || "";
+      document.getElementById("citta").value = c.citta || "";
+      document.getElementById("oe").value = c.oe || 0;
+      document.getElementById("dataInvio").value = c.dataInvio || "";
+      document.getElementById("dataScadenza").value = c.dataScadenza || "";
+      document.getElementById("dataAssemblea").value = c.dataAssemblea || "";
+      document.getElementById("stato").value = c.stato || "da-lavorare";
+      document.getElementById("info").value = c.info || "";
+      document.getElementById("annotazioni").value = c.annotazioni || "";
 
       closeActions();
       openModal();
     }
 
-    function duplicateSelected() {
+    async function duplicateSelected() {
       const c = getSelectedCommessa();
       if (!c) return;
 
-      const duplicated = {
-        ...c,
-        id: Date.now(),
-        numero: getNextNumero(),
-        stato: "da-lavorare"
-      };
+      try {
+        await addDoc(collection(db, "commesse"), {
+          numero: getNextNumero(),
+          nome: c.nome || "",
+          cognome: c.cognome || "",
+          kam: c.kam || "",
+          indirizzo: c.indirizzo || "",
+          citta: c.citta || "",
+          oe: Number(c.oe) || 0,
+          dataInvio: c.dataInvio || "",
+          dataScadenza: c.dataScadenza || "",
+          dataAssemblea: c.dataAssemblea || "",
+          stato: "da-lavorare",
+          info: c.info || "",
+          annotazioni: c.annotazioni || "",
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp(),
+          createdBy: auth.currentUser ? auth.currentUser.email : "",
+          updatedBy: auth.currentUser ? auth.currentUser.email : ""
+        });
 
-      commesse.push(duplicated);
-      saveToStorage();
-
-      selectedId = duplicated.id;
-
-      closeActions();
-      renderTable();
-      renderStats();
-
-      showToast("Commessa duplicata correttamente");
+        closeActions();
+        showToast("Commessa duplicata online");
+      } catch (error) {
+        console.error(error);
+        showToast("Errore durante la duplicazione");
+      }
     }
 
-    function deleteSelected() {
+    async function deleteSelected() {
       const c = getSelectedCommessa();
       if (!c) return;
 
@@ -1866,35 +1932,148 @@
 
       if (!confirmDelete) return;
 
-      commesse = commesse.filter(item => item.id !== selectedId);
-      selectedId = null;
+      try {
+        await deleteDoc(doc(db, "commesse", selectedId));
 
-      saveToStorage();
+        selectedId = null;
+        closeActions();
 
-      closeActions();
-      renderTable();
-      renderStats();
-
-      showToast("Commessa eliminata");
+        showToast("Commessa eliminata online");
+      } catch (error) {
+        console.error(error);
+        showToast("Errore durante l'eliminazione");
+      }
     }
 
-    window.onclick = function(event) {
-      const dropdown = document.getElementById("actionsDropdown");
+    function listenCommesse() {
+      if (unsubscribeCommesse) {
+        unsubscribeCommesse();
+      }
+
+      const q = query(collection(db, "commesse"), orderBy("numero", "asc"));
+
+      unsubscribeCommesse = onSnapshot(q, (snapshot) => {
+        commesse = snapshot.docs.map(item => {
+          return {
+            id: item.id,
+            ...item.data()
+          };
+        });
+
+        if (selectedId && !commesse.some(c => c.id === selectedId)) {
+          selectedId = null;
+        }
+
+        renderTable();
+        renderStats();
+      }, (error) => {
+        console.error(error);
+        showToast("Errore nel caricamento dati");
+      });
+    }
+
+    async function login() {
+      loginError.style.display = "none";
+
+      const email = loginEmail.value.trim();
+      const password = loginPassword.value.trim();
+
+      if (!email || !password) {
+        loginError.innerText = "Inserisci email e password.";
+        loginError.style.display = "block";
+        return;
+      }
+
+      loginBtn.disabled = true;
+      loginBtn.innerText = "Accesso...";
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        loginPassword.value = "";
+      } catch (error) {
+        console.error(error);
+        loginError.innerText = "Email o password non corrette.";
+        loginError.style.display = "block";
+      } finally {
+        loginBtn.disabled = false;
+        loginBtn.innerText = "Accedi";
+      }
+    }
+
+    async function logout() {
+      try {
+        await signOut(auth);
+      } catch (error) {
+        console.error(error);
+        showToast("Errore durante l'uscita");
+      }
+    }
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        loginScreen.style.display = "none";
+        appContent.style.display = "block";
+        userEmail.innerText = user.email || "Utente collegato";
+
+        listenCommesse();
+      } else {
+        if (unsubscribeCommesse) {
+          unsubscribeCommesse();
+          unsubscribeCommesse = null;
+        }
+
+        commesse = [];
+        selectedId = null;
+        editingId = null;
+
+        loginScreen.style.display = "flex";
+        appContent.style.display = "none";
+        userEmail.innerText = "";
+
+        renderTable();
+        renderStats();
+      }
+    });
+
+    loginBtn.addEventListener("click", login);
+
+    loginPassword.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        login();
+      }
+    });
+
+    loginEmail.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        loginPassword.focus();
+      }
+    });
+
+    logoutBtn.addEventListener("click", logout);
+
+    document.getElementById("newCommessaBtn").addEventListener("click", openNewCommessa);
+    document.getElementById("actionsBtn").addEventListener("click", toggleActions);
+    document.getElementById("duplicateBtn").addEventListener("click", duplicateSelected);
+    document.getElementById("editBtn").addEventListener("click", editSelected);
+    document.getElementById("deleteBtn").addEventListener("click", deleteSelected);
+    document.getElementById("cancelBtn").addEventListener("click", closeModal);
+
+    searchInput.addEventListener("input", renderTable);
+    statusFilter.addEventListener("change", renderTable);
+
+    form.addEventListener("submit", saveCommessa);
+
+    window.addEventListener("click", function(event) {
       const actionsMenu = document.querySelector(".actions-menu");
-      const modalBg = document.getElementById("modalBg");
 
       if (actionsMenu && !actionsMenu.contains(event.target)) {
-        dropdown.classList.remove("show");
+        actionsDropdown.classList.remove("show");
       }
 
       if (event.target === modalBg) {
         closeModal();
       }
-    };
-
-    checkSavedAccess();
-    renderTable();
-    renderStats();
+    });
   </script>
 
 </body>
