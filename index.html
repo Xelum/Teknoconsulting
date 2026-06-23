@@ -335,12 +335,6 @@
       backdrop-filter: blur(18px);
     }
 
-    .btn-glass:hover {
-      background: rgba(220,244,255,0.95);
-      transform: translateY(-2px);
-      box-shadow: 0 0 24px rgba(0, 180, 255, 0.20);
-    }
-
     .btn-danger {
       color: white;
       background: linear-gradient(135deg, #ef4444, #b91c1c);
@@ -423,8 +417,6 @@
       letter-spacing: -0.055em;
       color: var(--text-strong);
       text-shadow: 0 0 12px rgba(0, 180, 255, 0.16);
-      word-break: normal;
-      overflow-wrap: normal;
     }
 
     .stat-note {
@@ -538,7 +530,7 @@
 
     table {
       width: 100%;
-      min-width: 1360px;
+      min-width: 1420px;
       border-collapse: collapse;
       font-size: 13px;
     }
@@ -567,20 +559,13 @@
     }
 
     tbody tr {
-      cursor: pointer;
+      cursor: default;
       transition: 0.18s ease;
       background: rgba(255,255,255,0.62);
     }
 
     tbody tr:hover {
       background: rgba(0, 180, 255, 0.08);
-    }
-
-    tbody tr.selected {
-      background: rgba(0, 180, 255, 0.16);
-      box-shadow:
-        inset 4px 0 0 var(--neon-blue),
-        0 0 18px rgba(0, 180, 255, 0.18);
     }
 
     tbody tr.row-expired {
@@ -716,17 +701,38 @@
       box-shadow: 0 0 14px rgba(239,68,68,0.11);
     }
 
-    .actions-menu {
-      position: relative;
-      z-index: 99999;
+    .row-actions-cell {
+      text-align: right;
+      white-space: nowrap;
     }
 
-    .dropdown {
+    .row-menu-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(0, 180, 255, 0.42);
+      color: #006ea6;
+      font-size: 22px;
+      font-weight: 950;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow:
+        0 8px 18px rgba(0, 92, 160, 0.10),
+        0 0 14px rgba(0, 180, 255, 0.14);
+    }
+
+    .row-menu-btn:hover {
+      background: rgba(220,244,255,0.95);
+      transform: translateY(-1px);
+    }
+
+    .row-action-menu {
       display: none;
-      position: absolute;
-      right: 0;
-      top: 58px;
-      width: 245px;
+      position: fixed;
+      width: 230px;
       border: 1px solid rgba(0, 180, 255, 0.45);
       border-radius: 18px;
       overflow: hidden;
@@ -734,10 +740,10 @@
       box-shadow:
         0 18px 40px rgba(0, 70, 120, 0.22),
         0 0 28px rgba(0, 180, 255, 0.20);
-      z-index: 999999;
+      z-index: 3000000;
     }
 
-    .dropdown.show {
+    .row-action-menu.show {
       display: block;
       animation: dropdownIn 0.18s ease both;
     }
@@ -747,17 +753,22 @@
       to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
-    .dropdown button {
+    .row-action-menu button {
       width: 100%;
       text-align: left;
       padding: 14px 16px;
       color: var(--text);
       background: #ffffff;
       border-bottom: 1px solid rgba(0, 120, 180, 0.10);
+      font-size: 14px;
     }
 
-    .dropdown button:hover {
+    .row-action-menu button:hover {
       background: rgba(0, 180, 255, 0.10);
+    }
+
+    .row-action-menu button.danger {
+      color: #b91c1c;
     }
 
     .modal-bg {
@@ -933,20 +944,8 @@
         width: 100%;
       }
 
-      .hero-actions .btn,
-      .actions-menu {
+      .hero-actions .btn {
         width: 100%;
-      }
-
-      .actions-menu .btn {
-        width: 100%;
-      }
-
-      .dropdown {
-        position: static;
-        width: 100%;
-        margin-top: 10px;
-        border-radius: 16px;
       }
 
       .stats-grid {
@@ -1056,11 +1055,6 @@
           0 0 16px rgba(0, 180, 255, 0.10);
       }
 
-      tbody tr.selected {
-        border-color: rgba(0, 180, 255, 0.68);
-        background: rgba(224, 247, 255, 0.96);
-      }
-
       tbody td {
         display: grid;
         grid-template-columns: 118px minmax(0, 1fr);
@@ -1115,6 +1109,24 @@
         white-space: normal;
         text-align: right;
         justify-content: flex-end;
+      }
+
+      .row-actions-cell {
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .row-actions-cell::before {
+        margin-right: auto;
+      }
+
+      .row-menu-btn {
+        width: 44px;
+        height: 44px;
+      }
+
+      .row-action-menu {
+        width: min(230px, calc(100vw - 24px));
       }
 
       .form-grid {
@@ -1236,18 +1248,6 @@
           <button class="btn btn-primary" id="newCommessaBtn">
             + Nuova commessa
           </button>
-
-          <div class="actions-menu">
-            <button class="btn btn-glass" id="actionsBtn">
-              Azioni ▾
-            </button>
-
-            <div class="dropdown" id="actionsDropdown">
-              <button id="duplicateBtn">Duplica commessa</button>
-              <button id="editBtn">Modifica commessa</button>
-              <button id="deleteBtn">Elimina commessa</button>
-            </div>
-          </div>
         </div>
       </div>
     </section>
@@ -1307,7 +1307,7 @@
         <div class="panel-title">
           <h2>Elenco commesse</h2>
           <p>
-            Seleziona una riga per modificarla, duplicarla o eliminarla.
+            Usa i tre puntini su ogni riga per modificare, duplicare o eliminare una commessa.
             Ogni modifica viene salvata online nel database.
           </p>
         </div>
@@ -1347,6 +1347,7 @@
               <th>Stato</th>
               <th>Info</th>
               <th>Annotazioni</th>
+              <th>Azioni</th>
             </tr>
           </thead>
 
@@ -1389,6 +1390,12 @@
       </div>
     </section>
 
+  </div>
+
+  <div class="row-action-menu" id="rowActionMenu">
+    <button id="rowEditBtn">Modifica commessa</button>
+    <button id="rowDuplicateBtn">Duplica commessa</button>
+    <button class="danger" id="rowDeleteBtn">Elimina commessa</button>
   </div>
 
   <div class="modal-bg" id="modalBg">
@@ -1536,14 +1543,18 @@
 
     const form = document.getElementById("commessaForm");
     const modalBg = document.getElementById("modalBg");
-    const actionsDropdown = document.getElementById("actionsDropdown");
 
     const searchInput = document.getElementById("searchInput");
     const statusFilter = document.getElementById("statusFilter");
 
+    const rowActionMenu = document.getElementById("rowActionMenu");
+    const rowEditBtn = document.getElementById("rowEditBtn");
+    const rowDuplicateBtn = document.getElementById("rowDuplicateBtn");
+    const rowDeleteBtn = document.getElementById("rowDeleteBtn");
+
     let commesse = [];
-    let selectedId = null;
     let editingId = null;
+    let activeActionId = null;
     let unsubscribeCommesse = null;
 
     function showToast(message) {
@@ -1690,9 +1701,14 @@
       return Math.max(...commesse.map(c => Number(c.numero) || 0)) + 1;
     }
 
+    function getCommessaById(id) {
+      return commesse.find(c => c.id === id) || null;
+    }
+
     function openNewCommessa() {
       editingId = null;
-      selectedId = null;
+      activeActionId = null;
+      closeRowActionMenu();
 
       document.getElementById("modalTitle").innerText = "Nuova commessa";
       form.reset();
@@ -1711,28 +1727,45 @@
       editingId = null;
     }
 
-    function closeActions() {
-      actionsDropdown.classList.remove("show");
-    }
+    function openRowActionMenu(event, id) {
+      event.stopPropagation();
 
-    function toggleActions() {
-      actionsDropdown.classList.toggle("show");
-    }
+      activeActionId = id;
 
-    function getSelectedCommessa() {
-      if (!selectedId) {
-        showToast("Seleziona prima una commessa dalla tabella");
-        return null;
+      const button = event.currentTarget;
+      const rect = button.getBoundingClientRect();
+
+      rowActionMenu.classList.add("show");
+
+      const menuWidth = rowActionMenu.offsetWidth || 230;
+      const menuHeight = rowActionMenu.offsetHeight || 145;
+
+      let left = rect.right - menuWidth;
+      let top = rect.bottom + 8;
+
+      if (left < 12) {
+        left = 12;
       }
 
-      const commessa = commesse.find(c => c.id === selectedId);
-
-      if (!commessa) {
-        showToast("Commessa non trovata");
-        return null;
+      if (left + menuWidth > window.innerWidth - 12) {
+        left = window.innerWidth - menuWidth - 12;
       }
 
-      return commessa;
+      if (top + menuHeight > window.innerHeight - 12) {
+        top = rect.top - menuHeight - 8;
+      }
+
+      if (top < 12) {
+        top = 12;
+      }
+
+      rowActionMenu.style.left = `${left}px`;
+      rowActionMenu.style.top = `${top}px`;
+    }
+
+    function closeRowActionMenu() {
+      rowActionMenu.classList.remove("show");
+      activeActionId = null;
     }
 
     function getFormData() {
@@ -1833,15 +1866,6 @@
             tr.classList.add(deadlineInfo.rowClass);
           }
 
-          if (c.id === selectedId) {
-            tr.classList.add("selected");
-          }
-
-          tr.onclick = () => {
-            selectedId = c.id;
-            renderTable();
-          };
-
           tr.innerHTML = `
             <td data-label="N."><span class="numero">${c.numero || "-"}</span></td>
             <td data-label="Nome">${c.nome || "-"}</td>
@@ -1860,10 +1884,19 @@
             </td>
             <td data-label="Info">${c.info || "-"}</td>
             <td data-label="Annotazioni">${c.annotazioni || "-"}</td>
+            <td data-label="Azioni" class="row-actions-cell">
+              <button class="row-menu-btn" data-id="${c.id}" title="Azioni commessa">⋮</button>
+            </td>
           `;
 
           tbody.appendChild(tr);
         });
+
+      document.querySelectorAll(".row-menu-btn").forEach(button => {
+        button.addEventListener("click", event => {
+          openRowActionMenu(event, button.dataset.id);
+        });
+      });
     }
 
     function renderStats() {
@@ -1937,9 +1970,12 @@
         });
     }
 
-    function editSelected() {
-      const c = getSelectedCommessa();
-      if (!c) return;
+    function editCommessa(id) {
+      const c = getCommessaById(id);
+      if (!c) {
+        showToast("Commessa non trovata");
+        return;
+      }
 
       editingId = c.id;
 
@@ -1959,13 +1995,16 @@
       document.getElementById("info").value = c.info || "";
       document.getElementById("annotazioni").value = c.annotazioni || "";
 
-      closeActions();
+      closeRowActionMenu();
       openModal();
     }
 
-    async function duplicateSelected() {
-      const c = getSelectedCommessa();
-      if (!c) return;
+    async function duplicateCommessa(id) {
+      const c = getCommessaById(id);
+      if (!c) {
+        showToast("Commessa non trovata");
+        return;
+      }
 
       try {
         await addDoc(collection(db, "commesse"), {
@@ -1988,7 +2027,7 @@
           updatedBy: auth.currentUser ? auth.currentUser.email : ""
         });
 
-        closeActions();
+        closeRowActionMenu();
         showToast("Commessa duplicata online");
       } catch (error) {
         console.error(error);
@@ -1996,21 +2035,24 @@
       }
     }
 
-    async function deleteSelected() {
-      const c = getSelectedCommessa();
-      if (!c) return;
+    async function deleteCommessa(id) {
+      const c = getCommessaById(id);
+      if (!c) {
+        showToast("Commessa non trovata");
+        return;
+      }
 
-      const confirmDelete = confirm(`Vuoi eliminare la commessa n. ${c.numero}?`);
+      const firstConfirm = confirm(`Vuoi eliminare la commessa n. ${c.numero}?`);
+      if (!firstConfirm) return;
 
-      if (!confirmDelete) return;
+      const finalConfirm = confirm("Conferma definitiva: questa eliminazione non potrà essere annullata. Procedere?");
+      if (!finalConfirm) return;
 
       try {
-        await deleteDoc(doc(db, "commesse", selectedId));
+        await deleteDoc(doc(db, "commesse", id));
 
-        selectedId = null;
-        closeActions();
-
-        showToast("Commessa eliminata online");
+        closeRowActionMenu();
+        showToast("Commessa eliminata definitivamente");
       } catch (error) {
         console.error(error);
         showToast("Errore durante l'eliminazione");
@@ -2032,8 +2074,8 @@
           };
         });
 
-        if (selectedId && !commesse.some(c => c.id === selectedId)) {
-          selectedId = null;
+        if (activeActionId && !commesse.some(c => c.id === activeActionId)) {
+          closeRowActionMenu();
         }
 
         renderTable();
@@ -2095,13 +2137,14 @@
         }
 
         commesse = [];
-        selectedId = null;
         editingId = null;
+        activeActionId = null;
 
         loginScreen.style.display = "flex";
         appContent.style.display = "none";
         userEmail.innerText = "";
 
+        closeRowActionMenu();
         renderTable();
         renderStats();
       }
@@ -2124,11 +2167,19 @@
     logoutBtn.addEventListener("click", logout);
 
     document.getElementById("newCommessaBtn").addEventListener("click", openNewCommessa);
-    document.getElementById("actionsBtn").addEventListener("click", toggleActions);
-    document.getElementById("duplicateBtn").addEventListener("click", duplicateSelected);
-    document.getElementById("editBtn").addEventListener("click", editSelected);
-    document.getElementById("deleteBtn").addEventListener("click", deleteSelected);
     document.getElementById("cancelBtn").addEventListener("click", closeModal);
+
+    rowEditBtn.addEventListener("click", () => {
+      if (activeActionId) editCommessa(activeActionId);
+    });
+
+    rowDuplicateBtn.addEventListener("click", () => {
+      if (activeActionId) duplicateCommessa(activeActionId);
+    });
+
+    rowDeleteBtn.addEventListener("click", () => {
+      if (activeActionId) deleteCommessa(activeActionId);
+    });
 
     document.getElementById("analyticsBtn").addEventListener("click", () => {
       window.location.href = "analitica.html";
@@ -2140,16 +2191,17 @@
     form.addEventListener("submit", saveCommessa);
 
     window.addEventListener("click", function(event) {
-      const actionsMenu = document.querySelector(".actions-menu");
-
-      if (actionsMenu && !actionsMenu.contains(event.target)) {
-        actionsDropdown.classList.remove("show");
+      if (!rowActionMenu.contains(event.target) && !event.target.classList.contains("row-menu-btn")) {
+        closeRowActionMenu();
       }
 
       if (event.target === modalBg) {
         closeModal();
       }
     });
+
+    window.addEventListener("resize", closeRowActionMenu);
+    window.addEventListener("scroll", closeRowActionMenu, true);
   </script>
 
 </body>
