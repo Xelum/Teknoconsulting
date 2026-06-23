@@ -9,33 +9,14 @@
   <style>
     :root {
       --bg-main: #f4fbff;
-      --bg-second: #eaf6ff;
-
-      --panel: rgba(255, 255, 255, 0.92);
-      --panel-light: rgba(235, 248, 255, 0.96);
-
       --text: #102033;
       --text-strong: #071f33;
       --text-soft: #426177;
-      --muted: #6f8aa3;
-
-      --neon-blue: #00bfff;
-      --neon-blue-soft: rgba(0, 191, 255, 0.45);
-      --neon-blue-light: rgba(0, 191, 255, 0.18);
-
       --cyan: #006ea6;
+      --neon-blue: #00bfff;
       --green: #047857;
-      --yellow: #ca8a04;
-      --orange: #ea580c;
       --red: #dc2626;
-      --purple: #7e22ce;
-
       --border-neon: rgba(0, 180, 255, 0.42);
-      --border-soft: rgba(0, 120, 180, 0.12);
-
-      --shadow-soft: 0 18px 42px rgba(0, 92, 160, 0.14);
-      --shadow-neon: 0 0 28px rgba(0, 180, 255, 0.20);
-
       --radius: 24px;
     }
 
@@ -76,21 +57,15 @@
       content: "";
       position: fixed;
       inset: 0;
-      background:
-        linear-gradient(120deg, transparent, rgba(0, 180, 255, 0.08), transparent);
+      background: linear-gradient(120deg, transparent, rgba(0, 180, 255, 0.08), transparent);
       pointer-events: none;
       animation: backgroundMove 8s linear infinite;
       z-index: -1;
     }
 
     @keyframes backgroundMove {
-      0% {
-        transform: translateX(-30%);
-      }
-
-      100% {
-        transform: translateX(30%);
-      }
+      0% { transform: translateX(-30%); }
+      100% { transform: translateX(30%); }
     }
 
     .login-screen {
@@ -111,8 +86,7 @@
       width: min(430px, 100%);
       padding: 34px;
       border-radius: 30px;
-      background:
-        linear-gradient(145deg, rgba(255,255,255,0.96), rgba(235,248,255,0.98));
+      background: linear-gradient(145deg, rgba(255,255,255,0.96), rgba(235,248,255,0.98));
       border: 1px solid rgba(0, 180, 255, 0.45);
       box-shadow:
         0 24px 60px rgba(0, 92, 160, 0.18),
@@ -171,21 +145,45 @@
     .app {
       width: min(1520px, calc(100% - 36px));
       margin: 0 auto;
-      padding: 28px 0 60px;
+      padding: 22px 0 60px;
       animation: pageIn 0.7s ease both;
       display: none;
     }
 
     @keyframes pageIn {
-      from {
-        opacity: 0;
-        transform: translateY(18px);
-      }
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .top-access-bar {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 20;
+    }
+
+    .user-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 15px;
+      min-height: 46px;
+      border-radius: 15px;
+      background: rgba(255,255,255,0.82);
+      border: 1px solid rgba(0, 180, 255, 0.32);
+      color: #082033;
+      font-size: 13px;
+      font-weight: 850;
+      max-width: 330px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      box-shadow:
+        0 12px 28px rgba(0, 92, 160, 0.10),
+        0 0 18px rgba(0, 180, 255, 0.12);
     }
 
     .hero {
@@ -194,8 +192,7 @@
       border: 1px solid var(--border-neon);
       border-radius: 34px;
       padding: 36px;
-      background:
-        linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(235, 248, 255, 0.96));
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(235, 248, 255, 0.96));
       box-shadow:
         0 18px 45px rgba(0, 92, 160, 0.14),
         0 0 30px rgba(0, 180, 255, 0.22),
@@ -219,8 +216,7 @@
       width: 360px;
       height: 360px;
       border-radius: 50%;
-      background:
-        radial-gradient(circle, rgba(0, 180, 255, 0.28), rgba(0, 180, 255, 0.08), transparent 68%);
+      background: radial-gradient(circle, rgba(0, 180, 255, 0.28), rgba(0, 180, 255, 0.08), transparent 68%);
       right: -120px;
       top: -130px;
       filter: blur(2px);
@@ -229,13 +225,8 @@
     }
 
     @keyframes floatGlow {
-      from {
-        transform: translate(0, 0) scale(1);
-      }
-
-      to {
-        transform: translate(-22px, 26px) scale(1.08);
-      }
+      from { transform: translate(0, 0) scale(1); }
+      to { transform: translate(-22px, 26px) scale(1.08); }
     }
 
     .hero-content {
@@ -275,17 +266,9 @@
     }
 
     @keyframes pulse {
-      0% {
-        box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.70);
-      }
-
-      70% {
-        box-shadow: 0 0 0 11px rgba(22, 163, 74, 0);
-      }
-
-      100% {
-        box-shadow: 0 0 0 0 rgba(22, 163, 74, 0);
-      }
+      0% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.70); }
+      70% { box-shadow: 0 0 0 11px rgba(22, 163, 74, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); }
     }
 
     h1 {
@@ -370,28 +353,16 @@
       box-shadow: 0 12px 28px rgba(239, 68, 68, 0.22);
     }
 
-    .user-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 13px 15px;
-      min-height: 48px;
-      border-radius: 15px;
-      background: rgba(255,255,255,0.74);
-      border: 1px solid rgba(0, 180, 255, 0.32);
-      color: #082033;
+    .btn-small {
+      min-height: 42px;
+      padding: 11px 15px;
       font-size: 13px;
-      font-weight: 850;
-      max-width: 260px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
     }
 
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 16px;
+      grid-template-columns: repeat(9, minmax(150px, 1fr));
+      gap: 14px;
       margin-bottom: 22px;
       position: relative;
       z-index: 1;
@@ -402,9 +373,8 @@
       overflow: hidden;
       border: 1px solid var(--border-neon);
       border-radius: var(--radius);
-      padding: 20px;
-      background:
-        linear-gradient(145deg, rgba(255,255,255,0.94), rgba(232,247,255,0.96));
+      padding: 18px;
+      background: linear-gradient(145deg, rgba(255,255,255,0.94), rgba(232,247,255,0.96));
       box-shadow:
         0 14px 32px rgba(0, 92, 160, 0.12),
         0 0 24px rgba(0, 180, 255, 0.18),
@@ -415,15 +385,8 @@
     }
 
     @keyframes cardUp {
-      from {
-        opacity: 0;
-        transform: translateY(16px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .stat-card::before {
@@ -451,7 +414,7 @@
     .stat-label {
       position: relative;
       color: #0077b6;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 900;
       text-transform: uppercase;
       letter-spacing: 0.07em;
@@ -460,7 +423,7 @@
     .stat-value {
       position: relative;
       margin-top: 12px;
-      font-size: clamp(22px, 2.7vw, 32px);
+      font-size: clamp(20px, 2.2vw, 30px);
       font-weight: 950;
       letter-spacing: -0.045em;
       color: var(--text-strong);
@@ -475,11 +438,16 @@
       line-height: 1.35;
     }
 
+    .stat-green .stat-value { color: #047857; }
+    .stat-yellow .stat-value { color: #a16207; }
+    .stat-red .stat-value { color: #b91c1c; }
+    .stat-purple .stat-value { color: #7e22ce; }
+    .stat-blue .stat-value { color: #0369a1; }
+
     .panel {
       border: 1px solid var(--border-neon);
       border-radius: 28px;
-      background:
-        linear-gradient(145deg, rgba(255,255,255,0.94), rgba(235,248,255,0.96));
+      background: linear-gradient(145deg, rgba(255,255,255,0.94), rgba(235,248,255,0.96));
       box-shadow:
         0 18px 42px rgba(0, 92, 160, 0.13),
         0 0 26px rgba(0, 180, 255, 0.18),
@@ -630,15 +598,6 @@
       box-shadow: inset 4px 0 0 #f97316;
     }
 
-    tbody tr.row-expired.selected,
-    tbody tr.row-soon.selected,
-    tbody tr.row-tomorrow.selected {
-      box-shadow:
-        inset 4px 0 0 var(--neon-blue),
-        inset 8px 0 0 rgba(255,255,255,0.28),
-        0 0 20px rgba(0, 180, 255, 0.22);
-    }
-
     .numero {
       width: 42px;
       height: 42px;
@@ -787,15 +746,8 @@
     }
 
     @keyframes dropdownIn {
-      from {
-        opacity: 0;
-        transform: translateY(-8px) scale(0.98);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
+      from { opacity: 0; transform: translateY(-8px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     .dropdown button {
@@ -828,8 +780,7 @@
       max-height: 92vh;
       overflow-y: auto;
       border-radius: 30px;
-      background:
-        linear-gradient(145deg, rgba(255,255,255,0.98), rgba(232,247,255,0.98));
+      background: linear-gradient(145deg, rgba(255,255,255,0.98), rgba(232,247,255,0.98));
       border: 1px solid rgba(0, 180, 255, 0.48);
       box-shadow:
         0 22px 55px rgba(0, 70, 120, 0.25),
@@ -839,15 +790,8 @@
     }
 
     @keyframes modalIn {
-      from {
-        opacity: 0;
-        transform: translateY(18px) scale(0.98);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
+      from { opacity: 0; transform: translateY(18px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     .modal h2 {
@@ -928,7 +872,13 @@
       transform: translateY(0);
     }
 
-    @media (max-width: 1200px) {
+    @media (max-width: 1450px) {
+      .stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 950px) {
       .stats-grid {
         grid-template-columns: repeat(2, 1fr);
       }
@@ -939,15 +889,20 @@
     }
 
     @media (max-width: 760px) {
-      body {
-        background:
-          radial-gradient(circle at 12% 5%, rgba(0, 180, 255, 0.18), transparent 30%),
-          linear-gradient(135deg, #f7fcff 0%, #edf8ff 50%, #ffffff 100%);
-      }
-
       .app {
         width: min(100% - 18px, 1520px);
         padding-top: 10px;
+      }
+
+      .top-access-bar {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .user-pill,
+      .top-access-bar .btn {
+        width: 100%;
+        max-width: none;
       }
 
       .hero {
@@ -974,10 +929,8 @@
       }
 
       .hero-actions .btn,
-      .actions-menu,
-      .user-pill {
+      .actions-menu {
         width: 100%;
-        max-width: none;
       }
 
       .actions-menu .btn {
@@ -1061,14 +1014,6 @@
           0 0 18px rgba(0, 180, 255, 0.10);
       }
 
-      tbody tr.selected {
-        background: rgba(224, 247, 255, 0.95);
-        box-shadow:
-          inset 4px 0 0 #00bfff,
-          0 12px 26px rgba(0, 92, 160, 0.12),
-          0 0 20px rgba(0, 180, 255, 0.18);
-      }
-
       tbody td {
         display: flex;
         justify-content: space-between;
@@ -1093,11 +1038,6 @@
         letter-spacing: 0.035em;
         font-size: 11px;
         text-align: left;
-      }
-
-      .numero {
-        width: 38px;
-        height: 38px;
       }
 
       .deadline-box {
@@ -1153,21 +1093,11 @@
       </p>
 
       <div class="login-field">
-        <input
-          type="email"
-          id="loginEmail"
-          placeholder="Email"
-          autocomplete="email"
-        />
+        <input type="email" id="loginEmail" placeholder="Email" autocomplete="email" />
       </div>
 
       <div class="login-field">
-        <input
-          type="password"
-          id="loginPassword"
-          placeholder="Password"
-          autocomplete="current-password"
-        />
+        <input type="password" id="loginPassword" placeholder="Password" autocomplete="current-password" />
       </div>
 
       <button class="btn btn-primary login-button" id="loginBtn">
@@ -1182,6 +1112,11 @@
 
   <div class="app" id="appContent">
 
+    <div class="top-access-bar">
+      <span class="user-pill" id="userEmail">Utente collegato</span>
+      <button class="btn btn-danger btn-small" id="logoutBtn">Esci</button>
+    </div>
+
     <section class="hero">
       <div class="hero-content">
         <div>
@@ -1193,14 +1128,12 @@
           <h1>Dashboard<br>Commesse</h1>
 
           <p>
-            Banca dati dinamica collegata a Firestore per monitorare preventivi,
-            importi, scadenze, KAM, stati di avanzamento e risultati commerciali.
+            Banca dati dinamica per monitorare preventivi, importi, scadenze,
+            KAM, stati di avanzamento e risultati commerciali.
           </p>
         </div>
 
         <div class="hero-actions">
-          <span class="user-pill" id="userEmail">Utente collegato</span>
-
           <button class="btn btn-primary" id="newCommessaBtn">
             + Nuova commessa
           </button>
@@ -1216,43 +1149,63 @@
               <button id="deleteBtn">Elimina commessa</button>
             </div>
           </div>
-
-          <button class="btn btn-danger" id="logoutBtn">
-            Esci
-          </button>
         </div>
       </div>
     </section>
 
     <section class="stats-grid">
-      <div class="stat-card">
+      <div class="stat-card stat-blue">
         <div class="stat-label">Totale lavori</div>
-        <div class="stat-value" id="totalAmount">€ 0,00</div>
+        <div class="stat-value" id="totalAmount">0,00 €</div>
         <div class="stat-note">Somma complessiva degli importi O.E.</div>
       </div>
 
       <div class="stat-card">
         <div class="stat-label">Numero commesse</div>
         <div class="stat-value" id="totalJobs">0</div>
-        <div class="stat-note">Totale commesse presenti in archivio</div>
+        <div class="stat-note">Totale commesse presenti in archivio.</div>
       </div>
 
-      <div class="stat-card">
+      <div class="stat-card stat-blue">
         <div class="stat-label">Valore medio</div>
-        <div class="stat-value" id="averageAmount">€ 0,00</div>
-        <div class="stat-note">Media del valore per preventivo</div>
+        <div class="stat-value" id="averageAmount">0,00 €</div>
+        <div class="stat-note">Media del valore per preventivo.</div>
       </div>
 
-      <div class="stat-card">
+      <div class="stat-card stat-green">
         <div class="stat-label">Aggiudicate</div>
         <div class="stat-value" id="wonJobs">0</div>
-        <div class="stat-note">Commesse vinte o confermate</div>
+        <div class="stat-note">Commesse vinte o confermate.</div>
+      </div>
+
+      <div class="stat-card stat-yellow">
+        <div class="stat-label">Scadenze urgenti</div>
+        <div class="stat-value" id="urgentDeadlines">0</div>
+        <div class="stat-note">Scadute o entro 3 giorni.</div>
       </div>
 
       <div class="stat-card">
-        <div class="stat-label">Scadenze urgenti</div>
-        <div class="stat-value" id="urgentDeadlines">0</div>
-        <div class="stat-note">Scadute o in scadenza entro 3 giorni</div>
+        <div class="stat-label">Da lavorare</div>
+        <div class="stat-value" id="workingJobs">0</div>
+        <div class="stat-note">Commesse da lavorare o in lavorazione.</div>
+      </div>
+
+      <div class="stat-card stat-yellow">
+        <div class="stat-label">Consegnate / attesa</div>
+        <div class="stat-value" id="waitingJobs">0</div>
+        <div class="stat-note">Preventivi consegnati in attesa di esito.</div>
+      </div>
+
+      <div class="stat-card stat-red">
+        <div class="stat-label">Perse</div>
+        <div class="stat-value" id="lostJobs">0</div>
+        <div class="stat-note">Commesse non aggiudicate.</div>
+      </div>
+
+      <div class="stat-card stat-purple">
+        <div class="stat-label">Rifiutate</div>
+        <div class="stat-value" id="refusedJobs">0</div>
+        <div class="stat-note">Commesse rifiutate o non procedibili.</div>
       </div>
     </section>
 
@@ -1269,11 +1222,7 @@
 
       <div class="filters">
         <div class="field">
-          <input
-            type="text"
-            id="searchInput"
-            placeholder="Cerca per committente, città, KAM, note..."
-          />
+          <input type="text" id="searchInput" placeholder="Cerca per committente, città, KAM, note..." />
         </div>
 
         <div class="field">
@@ -1324,6 +1273,10 @@
           <h2>Statistiche per KAM</h2>
           <p>Analisi automatica del valore portato da ogni commerciale.</p>
         </div>
+
+        <button class="btn btn-primary btn-small" id="analyticsBtn">
+          Vedi dettaglio e analitica
+        </button>
       </div>
 
       <div class="table-wrap">
@@ -1387,7 +1340,7 @@
 
           <div class="form-group">
             <label>O.E. - Importo lavoro</label>
-            <input type="number" id="oe" step="0.01" placeholder="Es. 15000" />
+            <input type="number" id="oe" step="0.01" placeholder="Es. 9546,00" />
           </div>
 
           <div class="form-group">
@@ -1514,8 +1467,17 @@
       const number = Number(value) || 0;
 
       return number.toLocaleString("it-IT", {
-        style: "currency",
-        currency: "EUR"
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }) + " €";
+    }
+
+    function formatNumber(value) {
+      const number = Number(value) || 0;
+
+      return number.toLocaleString("it-IT", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
       });
     }
 
@@ -1805,7 +1767,12 @@
       const totalAmount = commesse.reduce((sum, c) => sum + (Number(c.oe) || 0), 0);
       const totalJobs = commesse.length;
       const averageAmount = totalJobs > 0 ? totalAmount / totalJobs : 0;
+
       const wonJobs = commesse.filter(c => c.stato === "aggiudicata").length;
+      const workingJobs = commesse.filter(c => c.stato === "da-lavorare").length;
+      const waitingJobs = commesse.filter(c => c.stato === "attesa").length;
+      const lostJobs = commesse.filter(c => c.stato === "persa").length;
+      const refusedJobs = commesse.filter(c => c.stato === "rifiutata").length;
 
       const urgentDeadlines = commesse.filter(c => {
         const deadline = getDeadlineInfo(c.dataScadenza);
@@ -1821,6 +1788,10 @@
       document.getElementById("averageAmount").innerText = formatCurrency(averageAmount);
       document.getElementById("wonJobs").innerText = wonJobs;
       document.getElementById("urgentDeadlines").innerText = urgentDeadlines;
+      document.getElementById("workingJobs").innerText = workingJobs;
+      document.getElementById("waitingJobs").innerText = waitingJobs;
+      document.getElementById("lostJobs").innerText = lostJobs;
+      document.getElementById("refusedJobs").innerText = refusedJobs;
 
       renderKamStats(totalAmount);
     }
@@ -1857,7 +1828,7 @@
             <td data-label="KAM"><strong>${kam}</strong></td>
             <td data-label="Numero lavori">${data.numero}</td>
             <td data-label="Importo totale" class="money">${formatCurrency(data.totale)}</td>
-            <td data-label="% sul totale">${percentuale.toFixed(2)}%</td>
+            <td data-label="% sul totale">${formatNumber(percentuale)}%</td>
             <td data-label="Valore medio">${formatCurrency(media)}</td>
           `;
 
@@ -2057,6 +2028,10 @@
     document.getElementById("editBtn").addEventListener("click", editSelected);
     document.getElementById("deleteBtn").addEventListener("click", deleteSelected);
     document.getElementById("cancelBtn").addEventListener("click", closeModal);
+
+    document.getElementById("analyticsBtn").addEventListener("click", () => {
+      window.location.href = "analitica.html";
+    });
 
     searchInput.addEventListener("input", renderTable);
     statusFilter.addEventListener("change", renderTable);
