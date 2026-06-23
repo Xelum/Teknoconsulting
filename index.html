@@ -1,34 +1,49 @@
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Dashboard Commesse</title>
 
   <style>
     :root {
-      --bg-main: #0f172a;
-      --bg-soft: #111c35;
-      --panel: rgba(255, 255, 255, 0.08);
-      --panel-light: rgba(255, 255, 255, 0.12);
-      --border: rgba(255, 255, 255, 0.14);
-      --text: #f8fafc;
-      --muted: #94a3b8;
-      --accent: #38bdf8;
-      --accent-2: #8b5cf6;
-      --green: #22c55e;
-      --yellow: #facc15;
-      --red: #ef4444;
-      --purple: #a855f7;
-      --white: #ffffff;
-      --dark: #020617;
-      --shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
-      --radius: 22px;
+      --bg-main: #07111f;
+      --bg-second: #0b1f36;
+      --panel: rgba(13, 34, 58, 0.78);
+      --panel-light: rgba(22, 55, 88, 0.88);
+      --panel-hover: rgba(32, 76, 120, 0.92);
+
+      --text: #f8fbff;
+      --text-soft: #d7e8ff;
+      --muted: #9fc5ea;
+
+      --neon-blue: #38d9ff;
+      --neon-blue-strong: #00bfff;
+      --cyan-light: #a8f3ff;
+
+      --green: #37ff8b;
+      --yellow: #ffe66d;
+      --orange: #ff9f43;
+      --red: #ff5c7a;
+      --purple: #c084fc;
+
+      --border-neon: rgba(56, 217, 255, 0.45);
+      --border-soft: rgba(168, 243, 255, 0.18);
+
+      --shadow-neon: 0 0 18px rgba(56, 217, 255, 0.22);
+      --shadow-neon-strong: 0 0 28px rgba(56, 217, 255, 0.36);
+      --shadow-dark: 0 24px 60px rgba(0, 0, 0, 0.32);
+
+      --radius: 24px;
     }
 
     * {
       box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
@@ -37,9 +52,10 @@
       font-family: Inter, Arial, Helvetica, sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at top left, rgba(56, 189, 248, 0.25), transparent 35%),
-        radial-gradient(circle at top right, rgba(139, 92, 246, 0.22), transparent 35%),
-        linear-gradient(135deg, #020617 0%, #0f172a 45%, #111827 100%);
+        radial-gradient(circle at 12% 10%, rgba(56, 217, 255, 0.28), transparent 30%),
+        radial-gradient(circle at 88% 8%, rgba(96, 165, 250, 0.20), transparent 30%),
+        radial-gradient(circle at 50% 95%, rgba(56, 217, 255, 0.12), transparent 34%),
+        linear-gradient(135deg, #07111f 0%, #0b1f36 48%, #102d4d 100%);
       overflow-x: hidden;
     }
 
@@ -48,26 +64,47 @@
       position: fixed;
       inset: 0;
       background-image:
-        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-      background-size: 42px 42px;
-      mask-image: linear-gradient(to bottom, black, transparent);
+        linear-gradient(rgba(168, 243, 255, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(168, 243, 255, 0.045) 1px, transparent 1px);
+      background-size: 46px 46px;
+      mask-image: linear-gradient(to bottom, black, rgba(0,0,0,0.8), transparent);
       pointer-events: none;
+      z-index: -2;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        linear-gradient(120deg, transparent, rgba(56,217,255,0.05), transparent);
+      pointer-events: none;
+      animation: backgroundMove 8s linear infinite;
       z-index: -1;
     }
 
-    .app {
-      width: min(1500px, calc(100% - 36px));
-      margin: 0 auto;
-      padding: 28px 0 50px;
-      animation: fadeIn 0.7s ease both;
+    @keyframes backgroundMove {
+      0% {
+        transform: translateX(-30%);
+      }
+      100% {
+        transform: translateX(30%);
+      }
     }
 
-    @keyframes fadeIn {
+    .app {
+      width: min(1520px, calc(100% - 36px));
+      margin: 0 auto;
+      padding: 28px 0 60px;
+      animation: pageIn 0.7s ease both;
+    }
+
+    @keyframes pageIn {
       from {
         opacity: 0;
         transform: translateY(18px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
@@ -77,26 +114,50 @@
     .hero {
       position: relative;
       overflow: hidden;
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-neon);
       border-radius: 34px;
-      padding: 34px;
+      padding: 36px;
       background:
-        linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04)),
-        linear-gradient(135deg, rgba(56,189,248,0.18), rgba(139,92,246,0.18));
-      box-shadow: var(--shadow);
-      margin-bottom: 22px;
+        linear-gradient(135deg, rgba(18, 55, 90, 0.90), rgba(10, 31, 55, 0.86)),
+        linear-gradient(135deg, rgba(56, 217, 255, 0.20), rgba(96, 165, 250, 0.12));
+      box-shadow:
+        var(--shadow-dark),
+        0 0 36px rgba(56,217,255,0.24),
+        inset 0 0 28px rgba(168,243,255,0.06);
+      margin-bottom: 20px;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 1px;
+      border-radius: 33px;
+      border: 1px solid rgba(168,243,255,0.13);
+      pointer-events: none;
     }
 
     .hero::after {
       content: "";
       position: absolute;
-      width: 260px;
-      height: 260px;
+      width: 360px;
+      height: 360px;
       border-radius: 50%;
-      background: linear-gradient(135deg, rgba(56,189,248,0.35), rgba(139,92,246,0.15));
-      right: -80px;
-      top: -80px;
-      filter: blur(4px);
+      background:
+        radial-gradient(circle, rgba(56,217,255,0.38), rgba(56,217,255,0.05), transparent 68%);
+      right: -120px;
+      top: -130px;
+      filter: blur(2px);
+      animation: floatGlow 5s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatGlow {
+      from {
+        transform: translate(0, 0) scale(1);
+      }
+
+      to {
+        transform: translate(-22px, 26px) scale(1.08);
+      }
     }
 
     .hero-content {
@@ -105,7 +166,7 @@
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
-      gap: 20px;
+      gap: 24px;
       flex-wrap: wrap;
     }
 
@@ -113,16 +174,17 @@
       display: inline-flex;
       align-items: center;
       gap: 9px;
-      padding: 8px 13px;
+      padding: 9px 14px;
       border-radius: 999px;
-      background: rgba(56,189,248,0.13);
-      color: #bae6fd;
+      background: rgba(56, 217, 255, 0.13);
+      color: var(--cyan-light);
       font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.04em;
+      font-weight: 900;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      border: 1px solid rgba(56,189,248,0.22);
-      margin-bottom: 16px;
+      border: 1px solid rgba(56, 217, 255, 0.36);
+      box-shadow: 0 0 18px rgba(56,217,255,0.16);
+      margin-bottom: 18px;
     }
 
     .pulse-dot {
@@ -130,35 +192,41 @@
       height: 9px;
       border-radius: 50%;
       background: var(--green);
-      box-shadow: 0 0 0 rgba(34,197,94,0.7);
+      box-shadow: 0 0 0 rgba(55,255,139,0.7);
       animation: pulse 1.7s infinite;
     }
 
     @keyframes pulse {
       0% {
-        box-shadow: 0 0 0 0 rgba(34,197,94,0.7);
+        box-shadow: 0 0 0 0 rgba(55,255,139,0.70);
       }
+
       70% {
-        box-shadow: 0 0 0 10px rgba(34,197,94,0);
+        box-shadow: 0 0 0 11px rgba(55,255,139,0);
       }
+
       100% {
-        box-shadow: 0 0 0 0 rgba(34,197,94,0);
+        box-shadow: 0 0 0 0 rgba(55,255,139,0);
       }
     }
 
     h1 {
       margin: 0;
-      font-size: clamp(34px, 5vw, 62px);
-      letter-spacing: -0.05em;
+      font-size: clamp(38px, 5vw, 66px);
+      letter-spacing: -0.055em;
       line-height: 0.95;
+      color: #ffffff;
+      text-shadow:
+        0 0 16px rgba(56,217,255,0.28),
+        0 2px 0 rgba(0,0,0,0.20);
     }
 
     .hero p {
       margin: 18px 0 0;
-      max-width: 760px;
-      color: var(--muted);
+      max-width: 780px;
+      color: var(--text-soft);
       font-size: 16px;
-      line-height: 1.6;
+      line-height: 1.65;
     }
 
     .hero-actions {
@@ -172,7 +240,7 @@
       cursor: pointer;
       font-family: inherit;
       transition: 0.22s ease;
-      font-weight: 800;
+      font-weight: 900;
     }
 
     .btn {
@@ -180,60 +248,67 @@
       align-items: center;
       justify-content: center;
       gap: 9px;
-      padding: 13px 17px;
-      border-radius: 14px;
+      padding: 13px 18px;
+      border-radius: 15px;
       font-size: 14px;
-      min-height: 46px;
+      min-height: 48px;
+      white-space: nowrap;
     }
 
     .btn-primary {
-      color: #06111d;
-      background: linear-gradient(135deg, #67e8f9, #38bdf8);
-      box-shadow: 0 14px 30px rgba(56,189,248,0.28);
+      color: #03111f;
+      background: linear-gradient(135deg, #a8f3ff, #38d9ff 45%, #00a6ff);
+      box-shadow:
+        0 12px 28px rgba(56,217,255,0.32),
+        0 0 24px rgba(56,217,255,0.28);
     }
 
     .btn-primary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 18px 38px rgba(56,189,248,0.36);
+      box-shadow:
+        0 18px 38px rgba(56,217,255,0.45),
+        0 0 34px rgba(56,217,255,0.36);
     }
 
     .btn-glass {
       color: var(--text);
-      background: rgba(255,255,255,0.09);
-      border: 1px solid var(--border);
+      background: rgba(13, 34, 58, 0.72);
+      border: 1px solid rgba(56,217,255,0.32);
+      box-shadow: 0 0 18px rgba(56,217,255,0.12);
       backdrop-filter: blur(18px);
     }
 
     .btn-glass:hover {
-      background: rgba(255,255,255,0.15);
+      background: rgba(32, 76, 120, 0.88);
       transform: translateY(-2px);
+      box-shadow: 0 0 24px rgba(56,217,255,0.24);
     }
 
     .btn-danger {
       color: white;
-      background: linear-gradient(135deg, #ef4444, #b91c1c);
-    }
-
-    .layout {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 22px;
+      background: linear-gradient(135deg, #ff5c7a, #b91c1c);
+      box-shadow: 0 0 20px rgba(255,92,122,0.25);
     }
 
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       gap: 16px;
+      margin-bottom: 22px;
     }
 
     .stat-card {
       position: relative;
       overflow: hidden;
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-neon);
       border-radius: var(--radius);
       padding: 20px;
-      background: rgba(255,255,255,0.08);
-      box-shadow: 0 16px 34px rgba(0,0,0,0.18);
+      background:
+        linear-gradient(145deg, rgba(22, 55, 88, 0.92), rgba(8, 27, 49, 0.86));
+      box-shadow:
+        0 16px 34px rgba(0,0,0,0.20),
+        0 0 22px rgba(56,217,255,0.16),
+        inset 0 0 18px rgba(168,243,255,0.045);
       backdrop-filter: blur(18px);
       animation: cardUp 0.55s ease both;
     }
@@ -250,11 +325,16 @@
       animation-delay: 0.18s;
     }
 
+    .stat-card:nth-child(5) {
+      animation-delay: 0.24s;
+    }
+
     @keyframes cardUp {
       from {
         opacity: 0;
         transform: translateY(16px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
@@ -265,9 +345,18 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgba(56,189,248,0.13), transparent 55%);
+      background: linear-gradient(135deg, rgba(56,217,255,0.16), transparent 58%);
       opacity: 0;
       transition: 0.25s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(168,243,255,0.78);
+      box-shadow:
+        0 18px 38px rgba(0,0,0,0.22),
+        0 0 34px rgba(56,217,255,0.28),
+        inset 0 0 22px rgba(168,243,255,0.06);
     }
 
     .stat-card:hover::before {
@@ -276,54 +365,73 @@
 
     .stat-label {
       position: relative;
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 700;
+      color: var(--cyan-light);
+      font-size: 12px;
+      font-weight: 900;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.07em;
     }
 
     .stat-value {
       position: relative;
       margin-top: 12px;
-      font-size: clamp(24px, 3vw, 34px);
-      font-weight: 900;
-      letter-spacing: -0.04em;
+      font-size: clamp(22px, 2.7vw, 32px);
+      font-weight: 950;
+      letter-spacing: -0.045em;
+      color: #ffffff;
+      text-shadow: 0 0 14px rgba(56,217,255,0.20);
+    }
+
+    .stat-note {
+      position: relative;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
     }
 
     .panel {
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-neon);
       border-radius: 28px;
-      background: rgba(255,255,255,0.075);
-      box-shadow: var(--shadow);
+      background:
+        linear-gradient(145deg, rgba(22, 55, 88, 0.88), rgba(8, 27, 49, 0.84));
+      box-shadow:
+        var(--shadow-dark),
+        0 0 28px rgba(56,217,255,0.18),
+        inset 0 0 24px rgba(168,243,255,0.045);
       backdrop-filter: blur(18px);
       overflow: hidden;
+      margin-bottom: 22px;
     }
 
     .panel-header {
-      padding: 22px;
-      border-bottom: 1px solid var(--border);
+      padding: 23px;
+      border-bottom: 1px solid rgba(56,217,255,0.24);
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 16px;
       flex-wrap: wrap;
+      background: rgba(4, 18, 34, 0.28);
     }
 
     .panel-title h2 {
       margin: 0;
-      font-size: 22px;
-      letter-spacing: -0.03em;
+      font-size: 23px;
+      letter-spacing: -0.035em;
+      color: #ffffff;
+      text-shadow: 0 0 12px rgba(56,217,255,0.20);
     }
 
     .panel-title p {
-      margin: 6px 0 0;
-      color: var(--muted);
+      margin: 7px 0 0;
+      color: var(--text-soft);
       font-size: 14px;
+      line-height: 1.45;
     }
 
     .filters {
-      padding: 0 22px 20px;
+      padding: 0 23px 22px;
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
@@ -339,37 +447,46 @@
     select,
     textarea {
       width: 100%;
-      background: rgba(15,23,42,0.78);
+      background: rgba(5, 20, 38, 0.82);
       color: var(--text);
-      border: 1px solid var(--border);
-      border-radius: 14px;
+      border: 1px solid rgba(56,217,255,0.30);
+      border-radius: 15px;
       padding: 13px 14px;
       outline: none;
       font-size: 14px;
       font-family: inherit;
       transition: 0.2s ease;
+      box-shadow: inset 0 0 18px rgba(0,0,0,0.18);
     }
 
     input:focus,
     select:focus,
     textarea:focus {
-      border-color: rgba(56,189,248,0.75);
-      box-shadow: 0 0 0 4px rgba(56,189,248,0.12);
+      border-color: rgba(168,243,255,0.85);
+      box-shadow:
+        0 0 0 4px rgba(56,217,255,0.12),
+        0 0 22px rgba(56,217,255,0.18),
+        inset 0 0 18px rgba(0,0,0,0.16);
     }
 
     input::placeholder,
     textarea::placeholder {
-      color: #64748b;
+      color: #8fb7d8;
+    }
+
+    select option {
+      background: #0b1f36;
+      color: #ffffff;
     }
 
     .table-wrap {
       overflow: auto;
-      max-height: 620px;
+      max-height: 640px;
     }
 
     table {
       width: 100%;
-      min-width: 1280px;
+      min-width: 1360px;
       border-collapse: collapse;
       font-size: 13px;
     }
@@ -378,22 +495,24 @@
       position: sticky;
       top: 0;
       z-index: 2;
-      background: rgba(2, 6, 23, 0.96);
-      color: #cbd5e1;
+      background: rgba(5, 20, 38, 0.98);
+      color: var(--cyan-light);
       text-align: left;
-      padding: 14px 14px;
-      border-bottom: 1px solid var(--border);
+      padding: 15px 14px;
+      border-bottom: 1px solid rgba(56,217,255,0.30);
       white-space: nowrap;
       text-transform: uppercase;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.055em;
       font-size: 11px;
+      text-shadow: 0 0 10px rgba(56,217,255,0.18);
     }
 
     tbody td {
-      padding: 14px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      color: #e2e8f0;
+      padding: 15px 14px;
+      border-bottom: 1px solid rgba(168,243,255,0.10);
+      color: #eef8ff;
       vertical-align: top;
+      line-height: 1.45;
     }
 
     tbody tr {
@@ -403,12 +522,35 @@
     }
 
     tbody tr:hover {
-      background: rgba(255,255,255,0.08);
+      background: rgba(56,217,255,0.08);
     }
 
     tbody tr.selected {
-      background: rgba(56,189,248,0.17);
-      box-shadow: inset 4px 0 0 var(--accent);
+      background: rgba(56,217,255,0.18);
+      box-shadow:
+        inset 4px 0 0 var(--neon-blue),
+        0 0 18px rgba(56,217,255,0.16);
+    }
+
+    tbody tr.row-expired {
+      box-shadow: inset 4px 0 0 var(--red);
+    }
+
+    tbody tr.row-soon {
+      box-shadow: inset 4px 0 0 var(--yellow);
+    }
+
+    tbody tr.row-tomorrow {
+      box-shadow: inset 4px 0 0 var(--orange);
+    }
+
+    tbody tr.row-expired.selected,
+    tbody tr.row-soon.selected,
+    tbody tr.row-tomorrow.selected {
+      box-shadow:
+        inset 4px 0 0 var(--neon-blue),
+        inset 8px 0 0 rgba(255,255,255,0.16),
+        0 0 20px rgba(56,217,255,0.22);
     }
 
     .numero {
@@ -418,16 +560,18 @@
       align-items: center;
       justify-content: center;
       border-radius: 14px;
-      background: rgba(56,189,248,0.14);
-      color: #bae6fd;
-      font-weight: 900;
-      border: 1px solid rgba(56,189,248,0.25);
+      background: rgba(56,217,255,0.14);
+      color: var(--cyan-light);
+      font-weight: 950;
+      border: 1px solid rgba(56,217,255,0.42);
+      box-shadow: 0 0 16px rgba(56,217,255,0.16);
     }
 
     .money {
-      font-weight: 900;
-      color: #bbf7d0;
+      font-weight: 950;
+      color: #baffd2;
       white-space: nowrap;
+      text-shadow: 0 0 10px rgba(55,255,139,0.12);
     }
 
     .badge {
@@ -437,7 +581,7 @@
       padding: 7px 10px;
       border-radius: 999px;
       font-size: 12px;
-      font-weight: 800;
+      font-weight: 900;
       white-space: nowrap;
       border: 1px solid transparent;
     }
@@ -448,36 +592,87 @@
       height: 8px;
       border-radius: 50%;
       background: currentColor;
+      box-shadow: 0 0 10px currentColor;
     }
 
     .badge-da-lavorare {
       color: #dbeafe;
-      background: rgba(255,255,255,0.08);
-      border-color: rgba(219,234,254,0.14);
+      background: rgba(219,234,254,0.10);
+      border-color: rgba(219,234,254,0.20);
     }
 
     .badge-attesa {
-      color: #fde68a;
-      background: rgba(250,204,21,0.12);
-      border-color: rgba(250,204,21,0.22);
+      color: #fff1a6;
+      background: rgba(255,230,109,0.13);
+      border-color: rgba(255,230,109,0.30);
     }
 
     .badge-aggiudicata {
-      color: #86efac;
-      background: rgba(34,197,94,0.12);
-      border-color: rgba(34,197,94,0.22);
+      color: #96ffbf;
+      background: rgba(55,255,139,0.13);
+      border-color: rgba(55,255,139,0.30);
     }
 
     .badge-persa {
-      color: #fca5a5;
-      background: rgba(239,68,68,0.12);
-      border-color: rgba(239,68,68,0.22);
+      color: #ffb1c0;
+      background: rgba(255,92,122,0.13);
+      border-color: rgba(255,92,122,0.30);
     }
 
     .badge-rifiutata {
-      color: #d8b4fe;
-      background: rgba(168,85,247,0.12);
-      border-color: rgba(168,85,247,0.22);
+      color: #e2c2ff;
+      background: rgba(192,132,252,0.13);
+      border-color: rgba(192,132,252,0.30);
+    }
+
+    .deadline-box {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .deadline-date {
+      font-weight: 850;
+      color: #ffffff;
+    }
+
+    .deadline-pill {
+      display: inline-flex;
+      width: fit-content;
+      padding: 6px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 950;
+      letter-spacing: 0.02em;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+
+    .deadline-ok {
+      color: #b9f5ff;
+      background: rgba(56,217,255,0.12);
+      border-color: rgba(56,217,255,0.27);
+    }
+
+    .deadline-soon {
+      color: #fff1a6;
+      background: rgba(255,230,109,0.13);
+      border-color: rgba(255,230,109,0.32);
+      box-shadow: 0 0 14px rgba(255,230,109,0.12);
+    }
+
+    .deadline-tomorrow {
+      color: #ffd7ad;
+      background: rgba(255,159,67,0.15);
+      border-color: rgba(255,159,67,0.32);
+      box-shadow: 0 0 14px rgba(255,159,67,0.13);
+    }
+
+    .deadline-expired {
+      color: #ffb1c0;
+      background: rgba(255,92,122,0.15);
+      border-color: rgba(255,92,122,0.35);
+      box-shadow: 0 0 14px rgba(255,92,122,0.14);
     }
 
     .actions-menu {
@@ -489,12 +684,14 @@
       position: absolute;
       right: 0;
       top: 54px;
-      width: 230px;
-      border: 1px solid var(--border);
+      width: 235px;
+      border: 1px solid rgba(56,217,255,0.38);
       border-radius: 18px;
       overflow: hidden;
-      background: rgba(15,23,42,0.98);
-      box-shadow: var(--shadow);
+      background: rgba(6, 25, 47, 0.98);
+      box-shadow:
+        var(--shadow-dark),
+        0 0 26px rgba(56,217,255,0.22);
       z-index: 20;
     }
 
@@ -508,6 +705,7 @@
         opacity: 0;
         transform: translateY(-8px) scale(0.98);
       }
+
       to {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -520,19 +718,19 @@
       padding: 14px 16px;
       color: var(--text);
       background: transparent;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
+      border-bottom: 1px solid rgba(168,243,255,0.10);
     }
 
     .dropdown button:hover {
-      background: rgba(255,255,255,0.08);
+      background: rgba(56,217,255,0.10);
     }
 
     .modal-bg {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(2,6,23,0.72);
-      backdrop-filter: blur(10px);
+      background: rgba(3, 12, 24, 0.76);
+      backdrop-filter: blur(12px);
       align-items: center;
       justify-content: center;
       padding: 22px;
@@ -540,15 +738,18 @@
     }
 
     .modal {
-      width: min(980px, 100%);
+      width: min(990px, 100%);
       max-height: 92vh;
       overflow-y: auto;
       border-radius: 30px;
       background:
-        linear-gradient(135deg, rgba(15,23,42,0.98), rgba(17,24,39,0.98));
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-      padding: 26px;
+        linear-gradient(145deg, rgba(18, 55, 90, 0.98), rgba(7, 22, 42, 0.98));
+      border: 1px solid rgba(56,217,255,0.44);
+      box-shadow:
+        var(--shadow-dark),
+        0 0 34px rgba(56,217,255,0.28),
+        inset 0 0 24px rgba(168,243,255,0.05);
+      padding: 27px;
       animation: modalIn 0.25s ease both;
     }
 
@@ -557,6 +758,7 @@
         opacity: 0;
         transform: translateY(18px) scale(0.98);
       }
+
       to {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -565,13 +767,16 @@
 
     .modal h2 {
       margin: 0 0 6px;
-      font-size: 28px;
+      font-size: 29px;
       letter-spacing: -0.04em;
+      color: #ffffff;
+      text-shadow: 0 0 14px rgba(56,217,255,0.22);
     }
 
     .modal-subtitle {
       margin: 0 0 24px;
-      color: var(--muted);
+      color: var(--text-soft);
+      line-height: 1.45;
     }
 
     .form-grid {
@@ -583,9 +788,9 @@
     .form-group label {
       display: block;
       margin-bottom: 8px;
-      color: #cbd5e1;
+      color: var(--cyan-light);
       font-size: 13px;
-      font-weight: 800;
+      font-weight: 900;
     }
 
     .full {
@@ -603,11 +808,12 @@
     .empty-state {
       padding: 50px 22px;
       text-align: center;
-      color: var(--muted);
+      color: var(--text-soft);
+      background: rgba(5, 20, 38, 0.30);
     }
 
     .empty-state strong {
-      color: var(--text);
+      color: #ffffff;
       display: block;
       font-size: 18px;
       margin-bottom: 8px;
@@ -617,17 +823,20 @@
       position: fixed;
       right: 24px;
       bottom: 24px;
-      padding: 14px 18px;
+      padding: 15px 18px;
       border-radius: 16px;
-      background: rgba(15,23,42,0.96);
+      background: rgba(6, 25, 47, 0.98);
       color: white;
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
+      border: 1px solid rgba(56,217,255,0.40);
+      box-shadow:
+        var(--shadow-dark),
+        0 0 24px rgba(56,217,255,0.22);
       opacity: 0;
       transform: translateY(20px);
       pointer-events: none;
       transition: 0.25s ease;
       z-index: 200;
+      font-weight: 850;
     }
 
     .toast.show {
@@ -635,7 +844,7 @@
       transform: translateY(0);
     }
 
-    @media (max-width: 1100px) {
+    @media (max-width: 1200px) {
       .stats-grid {
         grid-template-columns: repeat(2, 1fr);
       }
@@ -647,7 +856,7 @@
 
     @media (max-width: 700px) {
       .app {
-        width: min(100% - 22px, 1500px);
+        width: min(100% - 22px, 1520px);
         padding-top: 14px;
       }
 
@@ -673,6 +882,10 @@
       .field {
         min-width: 100%;
       }
+
+      h1 {
+        font-size: 42px;
+      }
     }
   </style>
 </head>
@@ -692,8 +905,8 @@
           <h1>Dashboard<br>Commesse</h1>
 
           <p>
-            Una banca dati semplice, ordinata e dinamica per monitorare preventivi,
-            importi, scadenze, KAM, stati di avanzamento e risultati commerciali.
+            Banca dati dinamica per monitorare preventivi, importi, scadenze,
+            KAM, stati di avanzamento e risultati commerciali.
           </p>
         </div>
 
@@ -721,31 +934,42 @@
       <div class="stat-card">
         <div class="stat-label">Totale lavori</div>
         <div class="stat-value" id="totalAmount">€ 0,00</div>
+        <div class="stat-note">Somma complessiva degli importi O.E.</div>
       </div>
 
       <div class="stat-card">
         <div class="stat-label">Numero commesse</div>
         <div class="stat-value" id="totalJobs">0</div>
+        <div class="stat-note">Totale commesse presenti in archivio</div>
       </div>
 
       <div class="stat-card">
         <div class="stat-label">Valore medio</div>
         <div class="stat-value" id="averageAmount">€ 0,00</div>
+        <div class="stat-note">Media del valore per preventivo</div>
       </div>
 
       <div class="stat-card">
-        <div class="stat-label">Commesse aggiudicate</div>
+        <div class="stat-label">Aggiudicate</div>
         <div class="stat-value" id="wonJobs">0</div>
+        <div class="stat-note">Commesse vinte o confermate</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Scadenze urgenti</div>
+        <div class="stat-value" id="urgentDeadlines">0</div>
+        <div class="stat-note">Scadute o in scadenza entro 3 giorni</div>
       </div>
     </section>
-
-    <br>
 
     <section class="panel">
       <div class="panel-header">
         <div class="panel-title">
           <h2>Elenco commesse</h2>
-          <p>Seleziona una riga per modificarla, duplicarla o eliminarla dal menu azioni.</p>
+          <p>
+            Seleziona una riga per modificarla, duplicarla o eliminarla dal menu azioni.
+            Le scadenze vengono evidenziate automaticamente.
+          </p>
         </div>
       </div>
 
@@ -783,7 +1007,7 @@
               <th>Città</th>
               <th>O.E.</th>
               <th>Invio ufficio</th>
-              <th>Scadenza</th>
+              <th>Scadenza preventivo</th>
               <th>Assemblea</th>
               <th>Stato</th>
               <th>Info</th>
@@ -800,8 +1024,6 @@
         </div>
       </div>
     </section>
-
-    <br>
 
     <section class="panel">
       <div class="panel-header">
@@ -946,7 +1168,7 @@
 
       setTimeout(() => {
         toast.classList.remove("show");
-      }, 2200);
+      }, 2300);
     }
 
     function formatCurrency(value) {
@@ -963,6 +1185,86 @@
 
       const parts = date.split("-");
       return `${parts[2]}/${parts[1]}/${parts[0]}`;
+    }
+
+    function normalizeDate(date) {
+      const d = new Date(date);
+      d.setHours(0, 0, 0, 0);
+      return d;
+    }
+
+    function getDeadlineInfo(date) {
+      if (!date) {
+        return {
+          text: "Nessuna scadenza",
+          className: "deadline-ok",
+          rowClass: "",
+          urgent: false
+        };
+      }
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      const deadline = normalizeDate(date);
+      const diffTime = deadline - today;
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+      if (diffDays < 0) {
+        return {
+          text: `Scaduta da ${Math.abs(diffDays)} giorni`,
+          className: "deadline-expired",
+          rowClass: "row-expired",
+          urgent: true
+        };
+      }
+
+      if (diffDays === 0) {
+        return {
+          text: "Scade oggi",
+          className: "deadline-tomorrow",
+          rowClass: "row-tomorrow",
+          urgent: true
+        };
+      }
+
+      if (diffDays === 1) {
+        return {
+          text: "Scade domani",
+          className: "deadline-tomorrow",
+          rowClass: "row-tomorrow",
+          urgent: true
+        };
+      }
+
+      if (diffDays <= 3) {
+        return {
+          text: `Mancano ${diffDays} giorni`,
+          className: "deadline-soon",
+          rowClass: "row-soon",
+          urgent: true
+        };
+      }
+
+      return {
+        text: `Mancano ${diffDays} giorni`,
+        className: "deadline-ok",
+        rowClass: "",
+        urgent: false
+      };
+    }
+
+    function renderDeadline(date) {
+      const info = getDeadlineInfo(date);
+
+      return `
+        <div class="deadline-box">
+          <span class="deadline-date">${formatDate(date)}</span>
+          <span class="deadline-pill ${info.className}">
+            ${info.text}
+          </span>
+        </div>
+      `;
     }
 
     function getStatusLabel(stato) {
@@ -1069,8 +1371,15 @@
         .sort((a, b) => Number(a.numero) - Number(b.numero))
         .forEach(c => {
           const tr = document.createElement("tr");
+          const deadlineInfo = getDeadlineInfo(c.dataScadenza);
 
-          if (c.id === selectedId) tr.classList.add("selected");
+          if (deadlineInfo.rowClass) {
+            tr.classList.add(deadlineInfo.rowClass);
+          }
+
+          if (c.id === selectedId) {
+            tr.classList.add("selected");
+          }
 
           tr.onclick = () => {
             selectedId = c.id;
@@ -1086,7 +1395,7 @@
             <td>${c.citta || "-"}</td>
             <td class="money">${formatCurrency(c.oe)}</td>
             <td>${formatDate(c.dataInvio)}</td>
-            <td>${formatDate(c.dataScadenza)}</td>
+            <td>${renderDeadline(c.dataScadenza)}</td>
             <td>${formatDate(c.dataAssemblea)}</td>
             <td>
               <span class="badge badge-${c.stato}">
@@ -1107,10 +1416,16 @@
       const averageAmount = totalJobs > 0 ? totalAmount / totalJobs : 0;
       const wonJobs = commesse.filter(c => c.stato === "aggiudicata").length;
 
+      const urgentDeadlines = commesse.filter(c => {
+        const deadline = getDeadlineInfo(c.dataScadenza);
+        return deadline.urgent === true && c.stato !== "aggiudicata" && c.stato !== "persa" && c.stato !== "rifiutata";
+      }).length;
+
       document.getElementById("totalAmount").innerText = formatCurrency(totalAmount);
       document.getElementById("totalJobs").innerText = totalJobs;
       document.getElementById("averageAmount").innerText = formatCurrency(averageAmount);
       document.getElementById("wonJobs").innerText = wonJobs;
+      document.getElementById("urgentDeadlines").innerText = urgentDeadlines;
 
       renderKamStats(totalAmount);
     }
