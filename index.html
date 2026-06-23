@@ -93,6 +93,81 @@
       }
     }
 
+    .login-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 99999999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 22px;
+      background:
+        radial-gradient(circle at top left, rgba(0, 180, 255, 0.22), transparent 34%),
+        radial-gradient(circle at bottom right, rgba(0, 110, 166, 0.16), transparent 34%),
+        linear-gradient(135deg, #f4fbff 0%, #eaf6ff 55%, #ffffff 100%);
+    }
+
+    .login-card {
+      width: min(430px, 100%);
+      padding: 34px;
+      border-radius: 30px;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,0.96), rgba(235,248,255,0.98));
+      border: 1px solid rgba(0, 180, 255, 0.45);
+      box-shadow:
+        0 24px 60px rgba(0, 92, 160, 0.18),
+        0 0 34px rgba(0, 180, 255, 0.22);
+      text-align: center;
+      animation: modalIn 0.35s ease both;
+    }
+
+    .login-badge {
+      display: inline-flex;
+      padding: 8px 13px;
+      border-radius: 999px;
+      background: rgba(0, 180, 255, 0.10);
+      color: #006ea6;
+      border: 1px solid rgba(0, 180, 255, 0.35);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 18px;
+    }
+
+    .login-card h2 {
+      margin: 0;
+      font-size: 32px;
+      letter-spacing: -0.045em;
+      color: #071f33;
+    }
+
+    .login-card p {
+      margin: 12px 0 22px;
+      color: #426177;
+      line-height: 1.5;
+    }
+
+    .login-field {
+      margin-bottom: 14px;
+    }
+
+    .login-button {
+      width: 100%;
+    }
+
+    .login-error {
+      display: none;
+      margin-top: 14px;
+      color: #b91c1c;
+      background: rgba(254,226,226,0.95);
+      border: 1px solid rgba(239,68,68,0.28);
+      padding: 10px;
+      border-radius: 14px;
+      font-weight: 800;
+      font-size: 13px;
+    }
+
     .app {
       width: min(1520px, calc(100% - 36px));
       margin: 0 auto;
@@ -854,43 +929,201 @@
       }
     }
 
-    @media (max-width: 700px) {
+    @media (max-width: 760px) {
+      body {
+        background:
+          radial-gradient(circle at 12% 5%, rgba(0, 180, 255, 0.18), transparent 30%),
+          linear-gradient(135deg, #f7fcff 0%, #edf8ff 50%, #ffffff 100%);
+      }
+
       .app {
-        width: min(100% - 22px, 1520px);
-        padding-top: 14px;
+        width: min(100% - 18px, 1520px);
+        padding-top: 10px;
       }
 
       .hero {
-        padding: 24px;
+        padding: 22px;
         border-radius: 26px;
+        margin-bottom: 14px;
       }
 
-      .hero-actions,
-      .panel-header {
+      .hero-content {
         align-items: stretch;
       }
 
-      .btn {
+      h1 {
+        font-size: 38px;
+        line-height: 0.98;
+      }
+
+      .hero p {
+        font-size: 14px;
+      }
+
+      .hero-actions {
         width: 100%;
       }
 
-      .stats-grid,
-      .form-grid {
+      .hero-actions .btn,
+      .actions-menu {
+        width: 100%;
+      }
+
+      .actions-menu .btn {
+        width: 100%;
+      }
+
+      .dropdown {
+        position: static;
+        width: 100%;
+        margin-top: 10px;
+        border-radius: 16px;
+      }
+
+      .stats-grid {
         grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .stat-card {
+        padding: 17px;
+        border-radius: 20px;
+      }
+
+      .stat-value {
+        font-size: 28px;
+      }
+
+      .panel {
+        border-radius: 22px;
+      }
+
+      .panel-header {
+        padding: 18px;
+      }
+
+      .panel-title h2 {
+        font-size: 21px;
+      }
+
+      .panel-title p {
+        font-size: 13px;
+      }
+
+      .filters {
+        padding: 0 18px 18px;
       }
 
       .field {
         min-width: 100%;
       }
 
-      h1 {
-        font-size: 42px;
+      .table-wrap {
+        max-height: none;
+        overflow: visible;
       }
 
-      .dropdown {
-        left: 0;
-        right: auto;
+      table {
+        min-width: 0;
         width: 100%;
+      }
+
+      thead {
+        display: none;
+      }
+
+      tbody,
+      tr,
+      td {
+        display: block;
+        width: 100%;
+      }
+
+      tbody tr {
+        margin: 14px;
+        padding: 14px;
+        border-radius: 20px;
+        border: 1px solid rgba(0, 180, 255, 0.28);
+        background: rgba(255,255,255,0.86);
+        box-shadow:
+          0 12px 26px rgba(0, 92, 160, 0.10),
+          0 0 18px rgba(0, 180, 255, 0.10);
+      }
+
+      tbody tr.selected {
+        background: rgba(224, 247, 255, 0.95);
+        box-shadow:
+          inset 4px 0 0 #00bfff,
+          0 12px 26px rgba(0, 92, 160, 0.12),
+          0 0 20px rgba(0, 180, 255, 0.18);
+      }
+
+      tbody td {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(0, 120, 180, 0.10);
+        font-size: 14px;
+        text-align: right;
+      }
+
+      tbody td:last-child {
+        border-bottom: 0;
+      }
+
+      tbody td::before {
+        content: attr(data-label);
+        flex: 0 0 42%;
+        color: #006ea6;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 0.035em;
+        font-size: 11px;
+        text-align: left;
+      }
+
+      .numero {
+        width: 38px;
+        height: 38px;
+      }
+
+      .deadline-box {
+        align-items: flex-end;
+        text-align: right;
+      }
+
+      .badge,
+      .deadline-pill {
+        white-space: normal;
+        text-align: right;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .modal {
+        padding: 22px;
+        border-radius: 24px;
+      }
+
+      .modal h2 {
+        font-size: 25px;
+      }
+
+      .modal-actions .btn {
+        width: 100%;
+      }
+
+      .login-card {
+        padding: 26px;
+        border-radius: 24px;
+      }
+
+      .login-card h2 {
+        font-size: 28px;
       }
     }
   </style>
@@ -898,7 +1131,37 @@
 
 <body>
 
-  <div class="app">
+  <div class="login-screen" id="loginScreen">
+    <div class="login-card">
+      <div class="login-badge">Accesso riservato</div>
+
+      <h2>Dashboard Commesse</h2>
+
+      <p>
+        Inserisci la password per accedere alla banca dati delle commesse.
+      </p>
+
+      <div class="login-field">
+        <input
+          type="password"
+          id="passwordInput"
+          placeholder="Password"
+          autocomplete="off"
+          onkeydown="handlePasswordEnter(event)"
+        />
+      </div>
+
+      <button class="btn btn-primary login-button" onclick="checkPassword()">
+        Entra
+      </button>
+
+      <div class="login-error" id="loginError">
+        Password errata. Riprova.
+      </div>
+    </div>
+  </div>
+
+  <div class="app" id="appContent" style="display: none;">
 
     <section class="hero">
       <div class="hero-content">
@@ -1157,11 +1420,54 @@
   <div class="toast" id="toast"></div>
 
   <script>
+    const ACCESS_PASSWORD = "Edilizia";
+
     let commesse = JSON.parse(localStorage.getItem("commesseDashboard")) || [];
     let selectedId = null;
     let editingId = null;
 
     const form = document.getElementById("commessaForm");
+
+    function checkSavedAccess() {
+      const accessGranted = sessionStorage.getItem("dashboardAccessGranted");
+
+      if (accessGranted === "true") {
+        document.getElementById("loginScreen").style.display = "none";
+        document.getElementById("appContent").style.display = "block";
+      } else {
+        document.getElementById("loginScreen").style.display = "flex";
+        document.getElementById("appContent").style.display = "none";
+      }
+    }
+
+    function checkPassword() {
+      const input = document.getElementById("passwordInput");
+      const error = document.getElementById("loginError");
+      const password = input.value.trim();
+
+      if (password === ACCESS_PASSWORD) {
+        sessionStorage.setItem("dashboardAccessGranted", "true");
+
+        document.getElementById("loginScreen").style.display = "none";
+        document.getElementById("appContent").style.display = "block";
+
+        error.style.display = "none";
+        input.value = "";
+
+        renderTable();
+        renderStats();
+      } else {
+        error.style.display = "block";
+        input.value = "";
+        input.focus();
+      }
+    }
+
+    function handlePasswordEnter(event) {
+      if (event.key === "Enter") {
+        checkPassword();
+      }
+    }
 
     function saveToStorage() {
       localStorage.setItem("commesseDashboard", JSON.stringify(commesse));
@@ -1393,23 +1699,23 @@
           };
 
           tr.innerHTML = `
-            <td><span class="numero">${c.numero}</span></td>
-            <td>${c.nome || "-"}</td>
-            <td>${c.cognome || "-"}</td>
-            <td><strong>${c.kam || "-"}</strong></td>
-            <td>${c.indirizzo || "-"}</td>
-            <td>${c.citta || "-"}</td>
-            <td class="money">${formatCurrency(c.oe)}</td>
-            <td>${formatDate(c.dataInvio)}</td>
-            <td>${renderDeadline(c.dataScadenza)}</td>
-            <td>${formatDate(c.dataAssemblea)}</td>
-            <td>
+            <td data-label="N."><span class="numero">${c.numero}</span></td>
+            <td data-label="Nome">${c.nome || "-"}</td>
+            <td data-label="Cognome">${c.cognome || "-"}</td>
+            <td data-label="KAM"><strong>${c.kam || "-"}</strong></td>
+            <td data-label="Indirizzo">${c.indirizzo || "-"}</td>
+            <td data-label="Città">${c.citta || "-"}</td>
+            <td data-label="O.E." class="money">${formatCurrency(c.oe)}</td>
+            <td data-label="Invio ufficio">${formatDate(c.dataInvio)}</td>
+            <td data-label="Scadenza">${renderDeadline(c.dataScadenza)}</td>
+            <td data-label="Assemblea">${formatDate(c.dataAssemblea)}</td>
+            <td data-label="Stato">
               <span class="badge badge-${c.stato}">
                 ${getStatusLabel(c.stato)}
               </span>
             </td>
-            <td>${c.info || "-"}</td>
-            <td>${c.annotazioni || "-"}</td>
+            <td data-label="Info">${c.info || "-"}</td>
+            <td data-label="Annotazioni">${c.annotazioni || "-"}</td>
           `;
 
           tbody.appendChild(tr);
@@ -1468,11 +1774,11 @@
           const tr = document.createElement("tr");
 
           tr.innerHTML = `
-            <td><strong>${kam}</strong></td>
-            <td>${data.numero}</td>
-            <td class="money">${formatCurrency(data.totale)}</td>
-            <td>${percentuale.toFixed(2)}%</td>
-            <td>${formatCurrency(media)}</td>
+            <td data-label="KAM"><strong>${kam}</strong></td>
+            <td data-label="Numero lavori">${data.numero}</td>
+            <td data-label="Importo totale" class="money">${formatCurrency(data.totale)}</td>
+            <td data-label="% sul totale">${percentuale.toFixed(2)}%</td>
+            <td data-label="Valore medio">${formatCurrency(media)}</td>
           `;
 
           tbody.appendChild(tr);
@@ -1586,6 +1892,7 @@
       }
     };
 
+    checkSavedAccess();
     renderTable();
     renderStats();
   </script>
