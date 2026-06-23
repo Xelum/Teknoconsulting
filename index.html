@@ -193,14 +193,26 @@
       overflow: visible;
       border: 1px solid var(--border-neon);
       border-radius: 34px;
-      padding: 36px;
+      padding: 28px 36px;
       background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(235, 248, 255, 0.96));
       box-shadow:
         0 18px 45px rgba(0, 92, 160, 0.14),
         0 0 30px rgba(0, 180, 255, 0.22),
         inset 0 0 20px rgba(0, 180, 255, 0.05);
-      margin-bottom: 20px;
+      margin-bottom: 16px;
       z-index: 5;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+      transform-origin: center;
+      will-change: transform;
+    }
+
+    .hero:hover {
+      transform: translateY(-4px) scale(1.01);
+      border-color: rgba(0, 180, 255, 0.75);
+      box-shadow:
+        0 24px 56px rgba(0, 92, 160, 0.18),
+        0 0 38px rgba(0, 180, 255, 0.30),
+        inset 0 0 22px rgba(0, 180, 255, 0.06);
     }
 
     .hero::before {
@@ -235,7 +247,7 @@
       position: relative;
       z-index: 10;
       display: flex;
-      align-items: flex-end;
+      align-items: center;
       justify-content: space-between;
       gap: 24px;
       flex-wrap: wrap;
@@ -275,9 +287,9 @@
 
     h1 {
       margin: 0;
-      font-size: clamp(38px, 5vw, 66px);
+      font-size: clamp(34px, 4.2vw, 58px);
       letter-spacing: -0.055em;
-      line-height: 0.95;
+      line-height: 1;
       color: var(--text-strong);
       text-shadow:
         0 0 14px rgba(0, 180, 255, 0.16),
@@ -370,7 +382,9 @@
         inset 0 0 16px rgba(0, 180, 255, 0.04);
       backdrop-filter: blur(18px);
       animation: cardUp 0.55s ease both;
-      transition: 0.25s ease;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+      transform-origin: center;
+      will-change: transform;
     }
 
     @keyframes cardUp {
@@ -388,7 +402,7 @@
     }
 
     .stat-card:hover {
-      transform: translateY(-3px);
+      transform: translateY(-6px) scale(1.025);
       border-color: rgba(0, 180, 255, 0.85);
       box-shadow:
         0 18px 40px rgba(0, 92, 160, 0.18),
@@ -446,6 +460,18 @@
       margin-bottom: 22px;
       position: relative;
       z-index: 1;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+      transform-origin: center;
+      will-change: transform;
+    }
+
+    .panel:hover {
+      transform: translateY(-4px) scale(1.01);
+      border-color: rgba(0, 180, 255, 0.72);
+      box-shadow:
+        0 24px 54px rgba(0, 92, 160, 0.17),
+        0 0 34px rgba(0, 180, 255, 0.28),
+        inset 0 0 22px rgba(0, 180, 255, 0.06);
     }
 
     .panel-header {
@@ -880,6 +906,14 @@
       transform: translateY(0);
     }
 
+    @media (hover: none) {
+      .hero:hover,
+      .stat-card:hover,
+      .panel:hover {
+        transform: none;
+      }
+    }
+
     @media (max-width: 1200px) {
       .stats-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -936,8 +970,8 @@
       }
 
       h1 {
-        font-size: 38px;
-        line-height: 0.98;
+        font-size: clamp(31px, 9vw, 38px);
+        line-height: 1;
       }
 
       .hero-actions {
@@ -1241,7 +1275,7 @@
             Gestionale preventivi online
           </div>
 
-          <h1>Dashboard<br>Commesse</h1>
+          <h1>Dashboard Commesse</h1>
         </div>
 
         <div class="hero-actions">
@@ -1341,7 +1375,7 @@
               <th>Indirizzo</th>
               <th>Città</th>
               <th>O.E.</th>
-              <th>Invio ufficio</th>
+              <th>Ricezione doc. tecnici</th>
               <th>Scadenza preventivo</th>
               <th>Assemblea</th>
               <th>Stato</th>
@@ -1444,7 +1478,7 @@
           </div>
 
           <div class="form-group">
-            <label>Data invio ufficio preventivi</label>
+            <label>Data ricezione documenti tecnici</label>
             <input type="date" id="dataInvio" />
           </div>
 
@@ -1874,7 +1908,7 @@
             <td data-label="Indirizzo">${c.indirizzo || "-"}</td>
             <td data-label="Città">${c.citta || "-"}</td>
             <td data-label="O.E." class="money">${formatCurrency(c.oe)}</td>
-            <td data-label="Invio ufficio">${formatDate(c.dataInvio)}</td>
+            <td data-label="Ricezione doc. tecnici">${formatDate(c.dataInvio)}</td>
             <td data-label="Scadenza">${renderDeadline(c.dataScadenza)}</td>
             <td data-label="Assemblea">${formatDate(c.dataAssemblea)}</td>
             <td data-label="Stato">
