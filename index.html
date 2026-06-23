@@ -8,7 +8,6 @@
 
   <style>
     :root {
-      --bg-main: #f4fbff;
       --text: #102033;
       --text-strong: #071f33;
       --text-soft: #426177;
@@ -282,14 +281,6 @@
         0 1px 0 rgba(255,255,255,0.60);
     }
 
-    .hero p {
-      margin: 18px 0 0;
-      max-width: 780px;
-      color: #33516b;
-      font-size: 16px;
-      line-height: 1.65;
-    }
-
     .hero-actions {
       display: flex;
       gap: 12px;
@@ -361,8 +352,8 @@
 
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(9, minmax(150px, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
       margin-bottom: 22px;
       position: relative;
       z-index: 1;
@@ -371,9 +362,10 @@
     .stat-card {
       position: relative;
       overflow: hidden;
+      min-height: 150px;
       border: 1px solid var(--border-neon);
       border-radius: var(--radius);
-      padding: 18px;
+      padding: 22px;
       background: linear-gradient(145deg, rgba(255,255,255,0.94), rgba(232,247,255,0.96));
       box-shadow:
         0 14px 32px rgba(0, 92, 160, 0.12),
@@ -414,7 +406,7 @@
     .stat-label {
       position: relative;
       color: #0077b6;
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 900;
       text-transform: uppercase;
       letter-spacing: 0.07em;
@@ -423,18 +415,20 @@
     .stat-value {
       position: relative;
       margin-top: 12px;
-      font-size: clamp(20px, 2.2vw, 30px);
+      font-size: clamp(30px, 3.2vw, 46px);
       font-weight: 950;
-      letter-spacing: -0.045em;
+      letter-spacing: -0.055em;
       color: var(--text-strong);
       text-shadow: 0 0 12px rgba(0, 180, 255, 0.16);
+      word-break: normal;
+      overflow-wrap: normal;
     }
 
     .stat-note {
       position: relative;
-      margin-top: 8px;
+      margin-top: 10px;
       color: #526b7f;
-      font-size: 12px;
+      font-size: 13px;
       line-height: 1.35;
     }
 
@@ -872,13 +866,7 @@
       transform: translateY(0);
     }
 
-    @media (max-width: 1450px) {
-      .stats-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-    @media (max-width: 950px) {
+    @media (max-width: 1200px) {
       .stats-grid {
         grid-template-columns: repeat(2, 1fr);
       }
@@ -920,10 +908,6 @@
         line-height: 0.98;
       }
 
-      .hero p {
-        font-size: 14px;
-      }
-
       .hero-actions {
         width: 100%;
       }
@@ -950,12 +934,13 @@
       }
 
       .stat-card {
-        padding: 17px;
+        min-height: 135px;
+        padding: 18px;
         border-radius: 20px;
       }
 
       .stat-value {
-        font-size: 28px;
+        font-size: 34px;
       }
 
       .panel {
@@ -1126,11 +1111,6 @@
           </div>
 
           <h1>Dashboard<br>Commesse</h1>
-
-          <p>
-            Banca dati dinamica per monitorare preventivi, importi, scadenze,
-            KAM, stati di avanzamento e risultati commerciali.
-          </p>
         </div>
 
         <div class="hero-actions">
@@ -1164,12 +1144,6 @@
         <div class="stat-label">Numero commesse</div>
         <div class="stat-value" id="totalJobs">0</div>
         <div class="stat-note">Totale commesse presenti in archivio.</div>
-      </div>
-
-      <div class="stat-card stat-blue">
-        <div class="stat-label">Valore medio</div>
-        <div class="stat-value" id="averageAmount">0,00 €</div>
-        <div class="stat-note">Media del valore per preventivo.</div>
       </div>
 
       <div class="stat-card stat-green">
@@ -1766,7 +1740,6 @@
     function renderStats() {
       const totalAmount = commesse.reduce((sum, c) => sum + (Number(c.oe) || 0), 0);
       const totalJobs = commesse.length;
-      const averageAmount = totalJobs > 0 ? totalAmount / totalJobs : 0;
 
       const wonJobs = commesse.filter(c => c.stato === "aggiudicata").length;
       const workingJobs = commesse.filter(c => c.stato === "da-lavorare").length;
@@ -1785,7 +1758,6 @@
 
       document.getElementById("totalAmount").innerText = formatCurrency(totalAmount);
       document.getElementById("totalJobs").innerText = totalJobs;
-      document.getElementById("averageAmount").innerText = formatCurrency(averageAmount);
       document.getElementById("wonJobs").innerText = wonJobs;
       document.getElementById("urgentDeadlines").innerText = urgentDeadlines;
       document.getElementById("workingJobs").innerText = workingJobs;
