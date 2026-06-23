@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Banca Dati Commesse - Flora</title>
+
+  <style>
+    :root {
+      --green: #2f7d32;
+      --green-dark: #1f5a24;
+      --light-green: #eaf5ea;
+      --yellow: #fff3cd;
+      --red: #f8d7da;
+      --purple: #eadcff;
+      --white: #ffffff;
+      --gray: #f4f6f8;
+      --text: #222;
+      --border: #d9d9d9;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--gray);
+      color: var(--text);
+    }
+
+    header {
+      background: var(--green);
+      color: white;
+      padding: 22px 30px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 26px;
+    }
+
+    header p {
+      margin: 6px 0 0;
+      opacity: 0.9;
+    }
+
+    main {
+      padding: 24px;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    button {
+      border: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .btn-primary {
+      background: var(--green);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--green-dark);
+    }
+
+    .btn-secondary {
+      background: white;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .btn-danger {
+      background: #c62828;
+      color: white;
+    }
+
+    .btn-purple {
+      background: #6a1b9a;
+      color: white;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 16px;
+      border-radius: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .card .value {
+      font-size: 24px;
+      font-weight: bold;
+      color: var(--green);
+    }
+
+    .panel {
+      background: white;
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      margin-bottom: 20px;
+    }
+
+    .filters {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+    }
+
+    .filters input,
+    .filters select {
+      max-width: 260px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f1f1f1;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    tr {
+      cursor: pointer;
+    }
+
+    tr.selected {
+      outline: 3px solid var(--green);
+      outline-offset: -3px;
+    }
+
+    .stato-da-lavorare {
+      background: white;
+    }
+
+    .stato-attesa {
+      background: var(--yellow);
+    }
+
+    .stato-aggiudicata {
+      background: var(--light-green);
+    }
+
+    .stato-persa {
+      background: var(--red);
+    }
+
+    .stato-rifiutata {
+      background: var(--purple);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 5px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: bold;
+      background: #eee;
+    }
+
+    .modal-bg {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 10;
+    }
+
+    .modal {
+      background: white;
+      width: 100%;
+      max-width: 950px;
+      max-height: 90vh;
+      overflow-y: auto;
+      border-radius: 16px;
+      padding: 22px;
+    }
+
+    .modal h2 {
+      margin-top: 0;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 6px;
+      font-size: 13px;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .actions-menu {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 45px;
+      background: white;
+      min-width: 190px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      box-shadow: 0 5px 16px rgba(0,0,0,0.12);
+      z-index: 5;
+      overflow: hidden;
+    }
+
+    .dropdown button {
+      display: block;
+      width: 100%;
+      border-radius: 0;
+      background: white;
+      color: var(--text);
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    .dropdown button:hover {
+      background: #f5f5f5;
+    }
+
+    .dropdown.show {
+      display: block;
+    }
+
+    .kam-table {
+      margin-top: 10px;
+    }
+
+    @media (max-width: 1000px) {
+      .cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .form-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      table {
+        min-width: 1200px;
+      }
+
+      .table-wrapper {
+        overflow-x: auto;
+      }
+    }
+
+    @media (max-width: 650px) {
+      main {
+        padding: 14px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Banca Dati Commesse Flora</h1>
+  <p>Gestione preventivi, commesse, KAM e statistiche commerciali</p>
+</header>
+
+<main>
+
+  <div class="top-bar">
+    <button class="btn-primary" onclick="openNewCommessa()">+ Nuova commessa</button>
+
+    <div class="actions-menu">
+      <button class="btn-secondary" onclick="toggleActions()">Azioni ▾</button>
+      <div class="dropdown" id="actionsDropdown">
+        <button onclick="duplicateSelected()">Duplica commessa</button>
+        <button onclick="editSelected()">Modifica commessa</button>
+        <button onclick="deleteSelected()">Elimina commessa</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="cards">
+    <div class="card">
+      <h3>Totale lavori</h3>
+      <div class="value" id="totalAmount">€ 0,00</div>
+    </div>
+
+    <div class="card">
+      <h3>Numero commesse</h3>
+      <div class="value" id="totalJobs">0</div>
+    </div>
+
+    <div class="card">
+      <h3>Valore medio</h3>
+      <div class="value" id="averageAmount">€ 0,00</div>
+    </div>
+
+    <div class="card">
+      <h3>Commesse aggiudicate</h3>
+      <div class="value" id="wonJobs">0</div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Elenco commesse</h2>
+
+    <div class="filters">
+      <input type="text" id="searchInput" placeholder="Cerca committente, città, KAM..." oninput="renderTable()" />
+
+      <select id="statusFilter" onchange="renderTable()">
+        <option value="">Tutti gli stati</option>
+        <option value="da-lavorare">Da lavorare / in lavorazione</option>
+        <option value="attesa">Consegnata / in attesa</option>
+        <option value="aggiudicata">Aggiudicata</option>
+        <option value="persa">Persa</option>
+        <option value="rifiutata">Rifiutata</option>
+      </select>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>N.</th>
+            <th>Nome</th>
+            <th>Cognome</th>
+            <th>KAM</th>
+            <th>Indirizzo</th>
+            <th>Città</th>
+            <th>O.E.</th>
+            <th>Invio ufficio preventivi</th>
+            <th>Scadenza preventivo</th>
+            <th>Data assemblea</th>
+            <th>Stato</th>
+            <th>Info</th>
+            <th>Annotazioni</th>
+          </tr>
+        </thead>
+        <tbody id="commesseTable"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Statistiche per KAM</h2>
+
+    <div class="table-wrapper">
+      <table class="kam-table">
+        <thead>
+          <tr>
+            <th>KAM</th>
+            <th>Numero lavori</th>
+            <th>Importo totale</th>
+            <th>% sul totale</th>
+            <th>Valore medio preventivo</th>
+          </tr>
+        </thead>
+        <tbody id="kamStatsTable"></tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h2 id="modalTitle">Nuova commessa</h2>
+
+    <form id="commessaForm">
+      <div class="form-grid">
+
+        <div class="form-group">
+          <label>Numero progressivo</label>
+          <input type="number" id="numero" required />
+        </div>
+
+        <div class="form-group">
+          <label>Nome committente</label>
+          <input type="text" id="nome" />
+        </div>
+
+        <div class="form-group">
+          <label>Cognome committente</label>
+          <input type="text" id="cognome" />
+        </div>
+
+        <div class="form-group">
+          <label>KAM</label>
+          <input type="text" id="kam" placeholder="Es. Mario Rossi" />
+        </div>
+
+        <div class="form-group">
+          <label>Indirizzo</label>
+          <input type="text" id="indirizzo" />
+        </div>
+
+        <div class="form-group">
+          <label>Città</label>
+          <input type="text" id="citta" />
+        </div>
+
+        <div class="form-group">
+          <label>O.E. - Importo lavoro</label>
+          <input type="number" id="oe" step="0.01" placeholder="Es. 15000" />
+        </div>
+
+        <div class="form-group">
+          <label>Data invio ufficio preventivi</label>
+          <input type="date" id="dataInvio" />
+        </div>
+
+        <div class="form-group">
+          <label>Data scadenza preventivo</label>
+          <input type="date" id="dataScadenza" />
+        </div>
+
+        <div class="form-group">
+          <label>Data assemblea condominio</label>
+          <input type="date" id="dataAssemblea" />
+        </div>
+
+        <div class="form-group">
+          <label>Stato commessa</label>
+          <select id="stato">
+            <option value="da-lavorare">Da lavorare / in lavorazione</option>
+            <option value="attesa">Consegnata / in attesa</option>
+            <option value="aggiudicata">Aggiudicata</option>
+            <option value="persa">Persa</option>
+            <option value="rifiutata">Rifiutata</option>
+          </select>
+        </div>
+
+        <div class="form-group full">
+          <label>Info</label>
+          <textarea id="info" rows="3"></textarea>
+        </div>
+
+        <div class="form-group full">
+          <label>Annotazioni</label>
+          <textarea id="annotazioni" rows="3"></textarea>
+        </div>
+
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" onclick="closeModal()">Annulla</button>
+        <button type="submit" class="btn-primary">Salva commessa</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  let commesse = JSON.parse(localStorage.getItem("commesseFlora")) || [];
+  let selectedId = null;
+  let editingId = null;
+
+  const form = document.getElementById("commessaForm");
+
+  function saveToStorage() {
+    localStorage.setItem("commesseFlora", JSON.stringify(commesse));
+  }
+
+  function formatCurrency(value) {
+    const number = Number(value) || 0;
+    return number.toLocaleString("it-IT", {
+      style: "currency",
+      currency: "EUR"
+    });
+  }
+
+  function formatDate(date) {
+    if (!date) return "";
+    const parts = date.split("-");
+    return `${parts[2]}/${parts[1]}/${parts[0]}`;
+  }
+
+  function getStatusLabel(stato) {
+    const labels = {
+      "da-lavorare": "Da lavorare",
+      "attesa": "In attesa",
+      "aggiudicata": "Aggiudicata",
+      "persa": "Persa",
+      "rifiutata": "Rifiutata"
+    };
+
+    return labels[stato] || "Da lavorare";
+  }
+
+  function getNextNumero() {
+    if (commesse.length === 0) return 1;
+    return Math.max(...commesse.map(c => Number(c.numero) || 0)) + 1;
+  }
+
+  function openNewCommessa() {
+    editingId = null;
+    selectedId = null;
+
+    document.getElementById("modalTitle").innerText = "Nuova commessa";
+    form.reset();
+    document.getElementById("numero").value = getNextNumero();
+
+    openModal();
+    renderTable();
+  }
+
+  function openModal() {
+    document.getElementById("modalBg").style.display = "flex";
+  }
+
+  function closeModal() {
+    document.getElementById("modalBg").style.display = "none";
+    editingId = null;
+  }
+
+  form.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const commessa = {
+      id: editingId || Date.now(),
+      numero: document.getElementById("numero").value,
+      nome: document.getElementById("nome").value.trim(),
+      cognome: document.getElementById("cognome").value.trim(),
+      kam: document.getElementById("kam").value.trim(),
+      indirizzo: document.getElementById("indirizzo").value.trim(),
+      citta: document.getElementById("citta").value.trim(),
+      oe: Number(document.getElementById("oe").value) || 0,
+      dataInvio: document.getElementById("dataInvio").value,
+      dataScadenza: document.getElementById("dataScadenza").value,
+      dataAssemblea: document.getElementById("dataAssemblea").value,
+      stato: document.getElementById("stato").value,
+      info: document.getElementById("info").value.trim(),
+      annotazioni: document.getElementById("annotazioni").value.trim()
+    };
+
+    if (editingId) {
+      commesse = commesse.map(c => c.id === editingId ? commessa : c);
+    } else {
+      commesse.push(commessa);
+    }
+
+    saveToStorage();
+    closeModal();
+    renderTable();
+    renderStats();
+  });
+
+  function renderTable() {
+    const tbody = document.getElementById("commesseTable");
+    const search = document.getElementById("searchInput").value.toLowerCase();
+    const status = document.getElementById("statusFilter").value;
+
+    tbody.innerHTML = "";
+
+    const filtered = commesse.filter(c => {
+      const text = `
+        ${c.numero}
+        ${c.nome}
+        ${c.cognome}
+        ${c.kam}
+        ${c.indirizzo}
+        ${c.citta}
+        ${c.info}
+        ${c.annotazioni}
+      `.toLowerCase();
+
+      const matchesSearch = text.includes(search);
+      const matchesStatus = status === "" || c.stato === status;
+
+      return matchesSearch && matchesStatus;
+    });
+
+    filtered
+      .sort((a, b) => Number(a.numero) - Number(b.numero))
+      .forEach(c => {
+        const tr = document.createElement("tr");
+
+        tr.className = `stato-${c.stato}`;
+        if (c.id === selectedId) tr.classList.add("selected");
+
+        tr.onclick = () => {
+          selectedId = c.id;
+          renderTable();
+        };
+
+        tr.innerHTML = `
+          <td><strong>${c.numero}</strong></td>
+          <td>${c.nome}</td>
+          <td>${c.cognome}</td>
+          <td>${c.kam}</td>
+          <td>${c.indirizzo}</td>
+          <td>${c.citta}</td>
+          <td><strong>${formatCurrency(c.oe)}</strong></td>
+          <td>${formatDate(c.dataInvio)}</td>
+          <td>${formatDate(c.dataScadenza)}</td>
+          <td>${formatDate(c.dataAssemblea)}</td>
+          <td><span class="badge">${getStatusLabel(c.stato)}</span></td>
+          <td>${c.info}</td>
+          <td>${c.annotazioni}</td>
+        `;
+
+        tbody.appendChild(tr);
+      });
+  }
+
+  function renderStats() {
+    const totalAmount = commesse.reduce((sum, c) => sum + (Number(c.oe) || 0), 0);
+    const totalJobs = commesse.length;
+    const averageAmount = totalJobs > 0 ? totalAmount / totalJobs : 0;
+    const wonJobs = commesse.filter(c => c.stato === "aggiudicata").length;
+
+    document.getElementById("totalAmount").innerText = formatCurrency(totalAmount);
+    document.getElementById("totalJobs").innerText = totalJobs;
+    document.getElementById("averageAmount").innerText = formatCurrency(averageAmount);
+    document.getElementById("wonJobs").innerText = wonJobs;
+
+    renderKamStats(totalAmount);
+  }
+
+  function renderKamStats(totalAmount) {
+    const tbody = document.getElementById("kamStatsTable");
+    tbody.innerHTML = "";
+
+    const stats = {};
+
+    commesse.forEach(c => {
+      const kamName = c.kam || "Non indicato";
+
+      if (!stats[kamName]) {
+        stats[kamName] = {
+          numero: 0,
+          totale: 0
+        };
+      }
+
+      stats[kamName].numero += 1;
+      stats[kamName].totale += Number(c.oe) || 0;
+    });
+
+    Object.entries(stats)
+      .sort((a, b) => b[1].totale - a[1].totale)
+      .forEach(([kam, data]) => {
+        const percentuale = totalAmount > 0 ? (data.totale / totalAmount) * 100 : 0;
+        const media = data.numero > 0 ? data.totale / data.numero : 0;
+
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+          <td><strong>${kam}</strong></td>
+          <td>${data.numero}</td>
+          <td>${formatCurrency(data.totale)}</td>
+          <td>${percentuale.toFixed(2)}%</td>
+          <td>${formatCurrency(media)}</td>
+        `;
+
+        tbody.appendChild(tr);
+      });
+  }
+
+  function toggleActions() {
+    document.getElementById("actionsDropdown").classList.toggle("show");
+  }
+
+  function getSelectedCommessa() {
+    if (!selectedId) {
+      alert("Seleziona prima una commessa dalla tabella.");
+      return null;
+    }
+
+    const commessa = commesse.find(c => c.id === selectedId);
+
+    if (!commessa) {
+      alert("Commessa non trovata.");
+      return null;
+    }
+
+    return commessa;
+  }
+
+  function editSelected() {
+    const c = getSelectedCommessa();
+    if (!c) return;
+
+    editingId = c.id;
+
+    document.getElementById("modalTitle").innerText = `Modifica commessa n. ${c.numero}`;
+
+    document.getElementById("numero").value = c.numero;
+    document.getElementById("nome").value = c.nome;
+    document.getElementById("cognome").value = c.cognome;
+    document.getElementById("kam").value = c.kam;
+    document.getElementById("indirizzo").value = c.indirizzo;
+    document.getElementById("citta").value = c.citta;
+    document.getElementById("oe").value = c.oe;
+    document.getElementById("dataInvio").value = c.dataInvio;
+    document.getElementById("dataScadenza").value = c.dataScadenza;
+    document.getElementById("dataAssemblea").value = c.dataAssemblea;
+    document.getElementById("stato").value = c.stato;
+    document.getElementById("info").value = c.info;
+    document.getElementById("annotazioni").value = c.annotazioni;
+
+    closeActions();
+    openModal();
+  }
+
+  function duplicateSelected() {
+    const c = getSelectedCommessa();
+    if (!c) return;
+
+    const duplicated = {
+      ...c,
+      id: Date.now(),
+      numero: getNextNumero(),
+      stato: "da-lavorare"
+    };
+
+    commesse.push(duplicated);
+    saveToStorage();
+
+    selectedId = duplicated.id;
+
+    closeActions();
+    renderTable();
+    renderStats();
+
+    alert("Commessa duplicata correttamente.");
+  }
+
+  function deleteSelected() {
+    const c = getSelectedCommessa();
+    if (!c) return;
+
+    const confirmDelete = confirm(`Vuoi eliminare la commessa n. ${c.numero}?`);
+
+    if (!confirmDelete) return;
+
+    commesse = commesse.filter(item => item.id !== selectedId);
+    selectedId = null;
+
+    saveToStorage();
+
+    closeActions();
+    renderTable();
+    renderStats();
+  }
+
+  function closeActions() {
+    document.getElementById("actionsDropdown").classList.remove("show");
+  }
+
+  window.onclick = function(event) {
+    const dropdown = document.getElementById("actionsDropdown");
+    const actionsMenu = document.querySelector(".actions-menu");
+
+    if (!actionsMenu.contains(event.target)) {
+      dropdown.classList.remove("show");
+    }
+
+    const modalBg = document.getElementById("modalBg");
+
+    if (event.target === modalBg) {
+      closeModal();
+    }
+  };
+
+  renderTable();
+  renderStats();
+</script>
+
+</body>
+</html>
