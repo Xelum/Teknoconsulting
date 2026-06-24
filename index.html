@@ -575,6 +575,16 @@
       overflow-wrap: anywhere;
     }
 
+    .commesse-main-table thead th {
+      font-size: 12px;
+      font-weight: 950;
+      line-height: 1.18;
+      white-space: normal;
+      text-align: center;
+      vertical-align: middle;
+      padding: 14px 8px;
+    }
+
     .commesse-main-table th:nth-child(1),
     .commesse-main-table td:nth-child(1) { width: 58px; }
     .commesse-main-table th:nth-child(2),
@@ -590,9 +600,9 @@
     .commesse-main-table th:nth-child(7),
     .commesse-main-table td:nth-child(7) { width: 110px; }
     .commesse-main-table th:nth-child(8),
-    .commesse-main-table td:nth-child(8) { width: 108px; }
+    .commesse-main-table td:nth-child(8) { width: 118px; }
     .commesse-main-table th:nth-child(9),
-    .commesse-main-table td:nth-child(9) { width: 132px; }
+    .commesse-main-table td:nth-child(9) { width: 126px; }
     .commesse-main-table th:nth-child(10),
     .commesse-main-table td:nth-child(10) { width: 96px; }
     .commesse-main-table th:nth-child(11),
@@ -630,6 +640,15 @@
       text-transform: uppercase;
       letter-spacing: 0.055em;
       font-size: 11px;
+      font-weight: 950;
+    }
+
+    .commesse-main-table thead th {
+      white-space: normal;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 950;
+      line-height: 1.18;
     }
 
     tbody td {
@@ -1439,8 +1458,8 @@
               <th>Indirizzo</th>
               <th>Città</th>
               <th>O.E.</th>
-              <th>Ricezione doc. tecnici</th>
-              <th>Scadenza preventivo</th>
+              <th>Ricezione<br>doc. tecnici</th>
+              <th>Scadenza<br>preventivo</th>
               <th>Assemblea</th>
               <th>Stato</th>
               <th>Info</th>
@@ -1715,8 +1734,8 @@
     function getDeadlineInfo(date, stato = "da-lavorare") {
       if (!date) {
         return {
-          text: "Nessuna scadenza",
-          className: "deadline-ok",
+          text: "",
+          className: "",
           rowClass: "",
           urgent: false
         };
@@ -1724,8 +1743,8 @@
 
       if (!isDeadlineActive(stato)) {
         return {
-          text: "Scadenza non attiva",
-          className: "deadline-ok",
+          text: "",
+          className: "",
           rowClass: "",
           urgent: false
         };
@@ -1784,10 +1803,19 @@
 
     function renderDeadline(date, stato) {
       const info = getDeadlineInfo(date, stato);
+      const dateText = formatDate(date);
+
+      if (!info.text) {
+        return `
+          <div class="deadline-box">
+            <span class="deadline-date">${dateText}</span>
+          </div>
+        `;
+      }
 
       return `
         <div class="deadline-box">
-          <span class="deadline-date">${formatDate(date)}</span>
+          <span class="deadline-date">${dateText}</span>
           <span class="deadline-pill ${info.className}">
             ${info.text}
           </span>
